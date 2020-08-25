@@ -12,9 +12,10 @@ import {
   TabOneParamList,
   TabTwoParamList,
   AccountsParamList,
-} from "../types";
+} from "./types";
 import { NavigatorContext } from "./NavigationStore";
 import AccountsScreen from "../screens/Accounts/AccountsScreen";
+import { AddAccountScreen } from "../screens/Accounts/AddAccountScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -107,6 +108,14 @@ function AccountsNavigator() {
         name="AccountsScreen"
         component={AccountsScreen}
         options={{ ...screenOptions, headerTitle: "Accounts" }}
+      />
+      <AccountsStack.Screen
+        name="AddAccountScreen"
+        component={AddAccountScreen}
+        options={{
+          ...screenOptions,
+          headerTitle: "New Account",
+        }}
       />
     </AccountsStack.Navigator>
   );

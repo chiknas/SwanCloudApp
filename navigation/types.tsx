@@ -1,3 +1,5 @@
+import { StackScreenProps } from "@react-navigation/stack";
+
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
@@ -17,14 +19,21 @@ export type TabOneParamList = {
 export type AccountsParamList = {
   AccountsScreen: undefined;
   AccountDetailsScreen: undefined;
+  AddAccountScreen:
+    | {
+        text: string;
+        name: string;
+      }
+    | undefined;
 };
+
+export type AddAccountScreenProps = StackScreenProps<
+  AccountsParamList,
+  "AddAccountScreen"
+>;
+
+export type AccountScreenProps = StackScreenProps<AccountsParamList>;
 
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
-};
-
-export type Account = {
-  name: string;
-  address: string;
-  port: number;
 };

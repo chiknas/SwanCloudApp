@@ -8,10 +8,9 @@ import * as React from "react";
 import { ColorSchemeName } from "react-native";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
-import { RootStackParamList } from "../types";
+import { RootStackParamList } from "./types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { TestScreen } from "../screens/TestScreen";
 import { NavigationStore } from "./NavigationStore";
 import { HeaderStyles } from "../constants/Header";
 

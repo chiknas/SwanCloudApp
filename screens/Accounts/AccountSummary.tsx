@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Account } from "../../types";
+import { Account } from "./types";
 import { Title } from "../../components/Title";
 
 const styles = StyleSheet.create({
@@ -34,7 +34,7 @@ export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
           style={{ width: "2em", height: "2em" }}
         />
         <View style={styles.account}>
-          <Title>{account.name}</Title>
+          <Title>{account.text}</Title>
           <Text>
             {account.address}:{account.port}
           </Text>
