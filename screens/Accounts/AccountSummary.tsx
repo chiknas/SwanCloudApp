@@ -6,12 +6,16 @@ import { Title } from "../../components/Title";
 const styles = StyleSheet.create({
   account_wrapper: {
     display: "flex",
-    marginTop: "1em",
-    padding: "1em",
+    marginTop: 10,
+    padding: 20,
   },
   account: {
     flex: 1,
-    marginLeft: "1em",
+    marginLeft: 15,
+  },
+  image: {
+    width: 30,
+    height: 30,
   },
   horizontal_wrapper: {
     display: "flex",
@@ -31,7 +35,7 @@ export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
       <View style={styles.horizontal_wrapper}>
         <Image
           source={require("../../assets/images/favicon.png")}
-          style={{ width: "2em", height: "2em" }}
+          style={styles.image}
         />
         <View style={styles.account}>
           <Title>{account.text}</Title>

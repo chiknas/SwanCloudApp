@@ -1,5 +1,6 @@
 import React from "react";
+import { Text } from "react-native";
 
 export const AddFtpAccountScreen: React.FunctionComponent = () => {
-  return <h1>New FTP screen</h1>;
+  return <Text>New FTP screen</Text>;
 };
