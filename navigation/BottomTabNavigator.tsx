@@ -7,23 +7,42 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from "../types";
-import { TestScreen } from "../screens/TestScreen";
+import {
+  BottomTabParamList,
+  TabOneParamList,
+  TabTwoParamList,
+  AccountsParamList,
+} from "../types";
 import { NavigatorContext } from "./NavigationStore";
+import AccountsScreen from "../screens/Accounts/AccountsScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // You can explore the built-in icon families and icons on the web at:
+  // https://icons.expo.fyi/
+  function TabBarIcon(props: { name: string; color: string }) {
+    return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  }
+
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
         name="TabOne"
         component={TabOneNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="ios-code" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Accounts"
+        component={AccountsNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-code" color={color} />
@@ -41,12 +60,6 @@ export default function BottomTabNavigator() {
       />
     </BottomTab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: string; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -80,5 +93,21 @@ function TabTwoNavigator() {
         options={{ ...screenOptions, headerTitle: "Tab Two Title" }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+
+const AccountsStack = createStackNavigator<AccountsParamList>();
+
+function AccountsNavigator() {
+  const { screenOptions } = React.useContext(NavigatorContext);
+
+  return (
+    <AccountsStack.Navigator>
+      <AccountsStack.Screen
+        name="AccountsScreen"
+        component={AccountsScreen}
+        options={{ ...screenOptions, headerTitle: "Accounts" }}
+      />
+    </AccountsStack.Navigator>
   );
 }
