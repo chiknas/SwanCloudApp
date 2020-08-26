@@ -1,22 +1,29 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { AccountSummary } from "./AccountSummary";
 import { Account, AccountType } from "./types";
 import { FloatingAction } from "react-native-floating-action";
 import { AccountScreenProps } from "../../navigation/types";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import { db } from "../../services/Database";
 
-export default function AccountsScreen({ navigation }: AccountScreenProps) {
-  const accounts: Account[] = [
-    { type: AccountType.FTP, text: "nikos", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test2", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test3", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test4", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test5", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test6", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test7", address: "localhost", port: 8080 },
-    { type: AccountType.FTP, text: "test8", address: "localhost", port: 8080 },
-  ];
+export default function AccountsScreen({
+  navigation,
+  route,
+}: AccountScreenProps) {
+  const [accounts, setAccounts] = useState<Account[]>([]);
+
+  useEffect(() => {
+    db.transaction((txn) => {
+      txn.executeSql(`SELECT * FROM account`, [], function (tx, res) {
+        const temp: Account[] = [];
+        for (let i = 0; i < res.rows.length; i++) {
+          temp.push(res.rows.item(i));
+        }
+        setAccounts(temp);
+      });
+    });
+  }, [route]);
+
   const actions = [
     {
       text: "FTP Server",
@@ -25,7 +32,7 @@ export default function AccountsScreen({ navigation }: AccountScreenProps) {
     },
   ];
 
-  const accountSummaries = accounts.map((account) => {
+  const accountsSummaries = accounts.map((account) => {
     return (
       <TouchableOpacity
         key={account.text}
@@ -38,7 +45,7 @@ export default function AccountsScreen({ navigation }: AccountScreenProps) {
 
   return (
     <>
-      <ScrollView>{accountSummaries}</ScrollView>
+      <ScrollView>{accountsSummaries}</ScrollView>
       <FloatingAction
         actions={actions}
         onPressItem={(name) => {

@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import { Tables } from "./Tables";
 
 const name = "swancloud.db";
 const version = "0.1";
@@ -9,36 +10,36 @@ export const db = SQLite.openDatabase(name, version, description, size);
 
 class Database {
   async init() {
-    db.transaction((txn) => {
-      txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='account'",
-        [],
-        function (tx, res) {
-          console.log("item:", res.rows.length);
-          if (res.rows.length == 0) {
-            txn.executeSql("DROP TABLE IF EXISTS account", []);
-            txn.executeSql(
-              `CREATE TABLE IF NOT EXISTS account(
+    Tables.forEach((table) => {
+      const columns = table.columns
+        .map((column) => {
+          return `${column.name} ${column.type} ${
+            column.required ? "NOT NULL" : ""
+          }`;
+        })
+        .join(", ");
+
+      db.transaction((txn) => {
+        txn.executeSql(
+          `SELECT name FROM sqlite_master WHERE type='table' AND name='${table.name}'`,
+          [],
+          function (tx, res) {
+            console.log(`Creating table ${table.name}`);
+            if (res.rows.length == 0) {
+              console.log(`Creating table '${table.name}'`);
+              txn.executeSql(`DROP TABLE IF EXISTS ${table.name}`, []);
+              txn.executeSql(
+                `CREATE TABLE IF NOT EXISTS ${table.name}(
                     id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    text VARCHAR(255) NOT NULL, 
-                    port INT(5) NOT NULL, 
-                    address VARCHAR(255) NOT NULL, 
-                    type VARCHAR(255) NOT NULL
+                    ${columns}
                     )`,
-              []
-            );
+                []
+              );
+            } else {
+              console.log(`Table '${table.name}' already exists.`);
+            }
           }
-        }
-      );
-    });
-
-    db.transaction((txn) => {
-      txn.executeSql("INSERT INTO account (text) VALUES ('test')", []);
-    });
-
-    db.transaction((txn) => {
-      txn.executeSql("SELECT * FROM account", [], function (tx, res) {
-        console.log("accounts:", res.rows.item(0));
+        );
       });
     });
   }

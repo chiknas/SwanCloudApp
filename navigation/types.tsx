@@ -17,7 +17,11 @@ export type TabOneParamList = {
 };
 
 export type AccountsParamList = {
-  AccountsScreen: undefined;
+  AccountsScreen:
+    | {
+        refresh: boolean;
+      }
+    | undefined;
   AccountDetailsScreen: undefined;
   AddAccountScreen:
     | {
@@ -32,7 +36,10 @@ export type AddAccountScreenProps = StackScreenProps<
   "AddAccountScreen"
 >;
 
-export type AccountScreenProps = StackScreenProps<AccountsParamList>;
+export type AccountScreenProps = StackScreenProps<
+  AccountsParamList,
+  "AccountsScreen"
+>;
 
 export type TabTwoParamList = {
   TabTwoScreen: undefined;

@@ -3,6 +3,9 @@ import { TextField } from "../../components/TextField";
 import { StyleSheet, Button } from "react-native";
 import { View } from "../../components/Themed";
 import { AccountType } from "./types";
+import { db } from "../../services/Database";
+import Navigation from "../../navigation";
+import { AddAccountScreenProps } from "../../navigation/types";
 
 const styles = StyleSheet.create({
   form: {
@@ -21,13 +24,28 @@ const styles = StyleSheet.create({
   },
 });
 
-export const AddFtpAccountScreen: React.FunctionComponent = () => {
+export const AddFtpAccountScreen: React.FunctionComponent<AddAccountScreenProps> = ({
+  navigation,
+}) => {
   const [form, setForm] = useState({
     name: "",
     address: "",
     port: 21,
     type: AccountType.FTP,
   });
+
+  const save = () => {
+    db.transaction((txn) => {
+      txn.executeSql(
+        `INSERT INTO account(text, address, port, type) 
+      VALUES ('${form.name}', '${form.address}', ${form.port}, '${form.type}')`,
+        [],
+        function (tx, res) {
+          navigation.navigate("AccountsScreen", { refresh: true });
+        }
+      );
+    });
+  };
 
   return (
     <View style={styles.form}>
@@ -83,7 +101,7 @@ export const AddFtpAccountScreen: React.FunctionComponent = () => {
           </Button>
         </View>
         <View style={{ width: 100 }}>
-          <Button onPress={() => console.log(form)} title="save">
+          <Button onPress={save} title="save">
             SAVE
           </Button>
         </View>
