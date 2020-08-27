@@ -3,6 +3,8 @@ export type Account = {
   address: string;
   port: number;
   type: AccountType;
+  usename: string;
+  password: string;
 };
 
 export enum AccountType {

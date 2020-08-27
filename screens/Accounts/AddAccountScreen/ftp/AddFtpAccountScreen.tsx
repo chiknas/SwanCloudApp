@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { TextField } from "../../components/TextField";
+import { TextField } from "../../../../components/TextField";
 import { StyleSheet, Button } from "react-native";
-import { View } from "../../components/Themed";
-import { AccountType } from "./types";
-import { db } from "../../services/Database";
-import Navigation from "../../navigation";
-import { AddAccountScreenProps } from "../../navigation/types";
+import { View } from "../../../../components/Themed";
+import { AccountType } from "../../types";
+import { db } from "../../../../services/Database";
+import { AddAccountScreenProps } from "../../../../navigation/types";
+import { Title } from "../../../../components/Title";
+import { Divider } from "../../../../components/Divider";
 
 const styles = StyleSheet.create({
   form: {
     padding: 20,
-    flex: 1,
   },
   form_item: {
     marginTop: 10,
@@ -32,13 +32,15 @@ export const AddFtpAccountScreen: React.FunctionComponent<AddAccountScreenProps>
     address: "",
     port: 21,
     type: AccountType.FTP,
+    username: "",
+    password: "",
   });
 
   const save = () => {
     db.transaction((txn) => {
       txn.executeSql(
-        `INSERT INTO account(text, address, port, type) 
-      VALUES ('${form.name}', '${form.address}', ${form.port}, '${form.type}')`,
+        `INSERT INTO account(text, address, port, type, username, password) 
+      VALUES ('${form.name}', '${form.address}', ${form.port}, '${form.type}', '${form.username}', '${form.password}')`,
         [],
         function (tx, res) {
           navigation.navigate("AccountsScreen", { refresh: true });
@@ -59,6 +61,30 @@ export const AddFtpAccountScreen: React.FunctionComponent<AddAccountScreenProps>
         label="Name"
         style={styles.form_item}
       />
+      <TextField
+        onChangeText={(text) =>
+          setForm((form) => {
+            form.username = text;
+            return form;
+          })
+        }
+        label="Login Username"
+        style={styles.form_item}
+      />
+      <TextField
+        onChangeText={(text) =>
+          setForm((form) => {
+            form.password = text;
+            return form;
+          })
+        }
+        label="Password"
+        secureTextEntry={true}
+        style={styles.form_item}
+      />
+
+      <Divider style={{ marginVertical: 20 }} />
+      <Title>Connection</Title>
       <View style={[styles.form_item, styles.horizontal_wrapper]}>
         <TextField
           onChangeText={(text) =>

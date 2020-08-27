@@ -10,6 +10,9 @@ export const db = SQLite.openDatabase(name, version, description, size);
 
 class Database {
   async init() {
+    db.transaction((txn) => {
+      txn.executeSql(`DROP TABLE account`);
+    });
     Tables.forEach((table) => {
       const columns = table.columns
         .map((column) => {

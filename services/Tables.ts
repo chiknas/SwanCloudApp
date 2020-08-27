@@ -33,6 +33,16 @@ export const Tables: Table[] = [
         type: "VARCHAR(255)",
         required: true,
       },
+      {
+        name: "username",
+        type: "VARCHAR(255)",
+        required: true,
+      },
+      {
+        name: "password",
+        type: "VARCHAR(255)",
+        required: true,
+      },
     ],
   },
 ];
