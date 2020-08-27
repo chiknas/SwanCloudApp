@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { AccountSummary } from "./AccountSummary";
-import { Account, AccountType } from "./types";
+import { Account } from "../types";
 import { FloatingAction } from "react-native-floating-action";
-import { AccountScreenProps } from "../../navigation/types";
+import { AccountScreenProps } from "../../../navigation/types";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
-import { db } from "../../services/Database";
+import { db } from "../../../services/Database";
 
 export default function AccountsScreen({
   navigation,
@@ -26,9 +26,9 @@ export default function AccountsScreen({
 
   const actions = [
     {
-      text: "FTP Server",
-      name: AccountType.FTP,
-      icon: require("../../assets/images/favicon.png"),
+      text: "Swan Server",
+      name: "swan_server",
+      icon: require("../../../assets/images/swan.png"),
     },
   ];
 
@@ -36,7 +36,7 @@ export default function AccountsScreen({
     return (
       <TouchableOpacity
         key={account.text}
-        onPress={() => navigation.navigate("AddAccountScreen", actions[0])}
+        onPress={() => navigation.navigate("AddAccountScreen")}
       >
         <AccountSummary account={account} />
       </TouchableOpacity>
@@ -48,13 +48,8 @@ export default function AccountsScreen({
       <ScrollView>{accountsSummaries}</ScrollView>
       <FloatingAction
         actions={actions}
-        onPressItem={(name) => {
-          navigation.navigate(
-            "AddAccountScreen",
-            actions.find((action) => {
-              return action.name === name;
-            })
-          );
+        onPressItem={() => {
+          navigation.navigate("AddAccountScreen");
         }}
       />
     </>

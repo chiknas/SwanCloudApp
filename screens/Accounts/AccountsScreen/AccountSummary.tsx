@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { Account } from "./types";
-import { Title } from "../../components/Title";
+import { Account } from "../types";
+import { Title } from "../../../components/Title";
 
 const styles = StyleSheet.create({
   account_wrapper: {
@@ -34,7 +34,7 @@ export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
     <View style={styles.account_wrapper}>
       <View style={styles.horizontal_wrapper}>
         <Image
-          source={require("../../assets/images/favicon.png")}
+          source={require("../../../assets/images/swan.png")}
           style={styles.image}
         />
         <View style={styles.account}>

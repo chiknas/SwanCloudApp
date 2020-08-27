@@ -29,11 +29,6 @@ export const Tables: Table[] = [
         required: true,
       },
       {
-        name: "type",
-        type: "VARCHAR(255)",
-        required: true,
-      },
-      {
         name: "username",
         type: "VARCHAR(255)",
         required: true,

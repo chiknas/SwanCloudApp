@@ -23,12 +23,7 @@ export type AccountsParamList = {
       }
     | undefined;
   AccountDetailsScreen: undefined;
-  AddAccountScreen:
-    | {
-        text: string;
-        name: string;
-      }
-    | undefined;
+  AddAccountScreen: undefined;
 };
 
 export type AddAccountScreenProps = StackScreenProps<

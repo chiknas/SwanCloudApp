@@ -14,7 +14,7 @@ import {
   AccountsParamList,
 } from "./types";
 import { NavigatorContext } from "./NavigationStore";
-import AccountsScreen from "../screens/Accounts/AccountsScreen";
+import AccountsScreen from "../screens/Accounts/AccountsScreen/AccountsScreen";
 import { AddAccountScreen } from "../screens/Accounts/AddAccountScreen/AddAccountScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
