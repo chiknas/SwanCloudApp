@@ -1,8 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Text, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
 import Navigation from 'navigation/Navigation';
 import useCachedResources from 'hooks/useCachedResources';
 
@@ -17,7 +16,7 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} />
-        {/* <StatusBar /> */}
+        <StatusBar />
       </SafeAreaProvider>
     );
   }
