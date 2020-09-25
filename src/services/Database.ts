@@ -28,7 +28,7 @@ class Database {
             [],
             function (tx, res) {
               console.log(`Creating table ${table.name}`);
-              if (res.rows.length == 0) {
+              if (res.rows.length === 0) {
                 console.log(`Creating table '${table.name}'`);
                 txn.executeSql(`DROP TABLE IF EXISTS ${table.name}`, []);
                 txn.executeSql(

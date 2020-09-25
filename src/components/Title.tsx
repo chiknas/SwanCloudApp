@@ -1,10 +1,10 @@
-import React, { PropsWithChildren } from "react";
-import { StyleSheet, View, Text, Image, TextProps } from "react-native";
+import React, {PropsWithChildren} from 'react';
+import {StyleSheet, Text, TextProps} from 'react-native';
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 

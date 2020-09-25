@@ -1,11 +1,11 @@
-import React from "react";
-import { TextField } from "../../../components/TextField";
-import { AddAccountFieldProps } from "./AddAccountScreen";
-import { View, ViewProps } from "../../../components/Themed";
+import React from 'react';
+import {TextField} from '../../../components/TextField';
+import {AddAccountFieldProps} from './AddAccountScreen';
+import {View, ViewProps} from '../../../components/Themed';
 
 export const AccountName: React.FunctionComponent<
   AddAccountFieldProps & ViewProps
-> = ({ setForm, ...viewProps }) => {
+> = ({setForm, ...viewProps}) => {
   return (
     <View {...viewProps}>
       <TextField

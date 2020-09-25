@@ -1,8 +1,14 @@
 import React from 'react';
 import {AddAccountFieldProps} from './AddAccountScreen';
 import {View} from '/components/Themed';
-import {Button} from 'react-native';
+import {Button, StyleSheet} from 'react-native';
 import {database} from '/services/Database';
+
+const styles = StyleSheet.create({
+  button: {
+    width: 100,
+  },
+});
 
 export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
   form,
@@ -18,7 +24,7 @@ export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
           `INSERT INTO account(text, address, port, username, password)
         VALUES ('${form.name}', '${form.address}', ${form.port}, '${form.username}', '${form.password}')`,
           [],
-          function (tx, res) {
+          function () {
             screenProps?.navigation.navigate('AccountsScreen', {refresh: true});
           },
         );
@@ -27,7 +33,7 @@ export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
   };
 
   return (
-    <View style={[{width: 100}]}>
+    <View style={styles.button}>
       <Button onPress={save} title="save">
         SAVE
       </Button>

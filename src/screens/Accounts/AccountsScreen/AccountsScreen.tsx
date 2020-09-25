@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {AccountSummary} from './AccountSummary';
 import {Account} from '../types';
 import {FloatingAction} from 'react-native-floating-action';
@@ -15,7 +15,7 @@ export default function AccountsScreen({
   useEffect(() => {
     database.then((db) => {
       db.transaction((txn) => {
-        txn.executeSql(`SELECT * FROM account`, [], function (tx, res) {
+        txn.executeSql('SELECT * FROM account', [], function (tx, res) {
           const temp: Account[] = [];
           for (let i = 0; i < res.rows.length; i++) {
             temp.push(res.rows.item(i));
