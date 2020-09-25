@@ -4,6 +4,7 @@ import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from 'navigation/Navigation';
 import useCachedResources from 'hooks/useCachedResources';
+import {HeaderStyles} from 'constants/Header';
 
 //TODO: for navigation to work on iOS we might need cocoapods https://reactnative.dev/docs/navigation
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <StatusBar backgroundColor={HeaderStyles.backgroundColor} />
       </SafeAreaProvider>
     );
   }
