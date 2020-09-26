@@ -186,6 +186,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-ftp')
+    implementation project(':@react-native-community_cameraroll')
     
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

@@ -5,3 +5,5 @@ apply from: file("../node_modules/@react-native-community/cli-platform-android/n
 include ':app'
 include ':react-native-ftp'
 project(':react-native-ftp').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-ftp/android')
+include ':@react-native-community_cameraroll'
+project(':@react-native-community_cameraroll').projectDir = new File(rootProject.projectDir, 	'../node_modules/@react-native-community/cameraroll/android')
