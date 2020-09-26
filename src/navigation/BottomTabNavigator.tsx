@@ -4,17 +4,17 @@ import * as React from 'react';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import {
   BottomTabParamList,
-  TabOneParamList,
+  HomeParamList,
   TabTwoParamList,
   AccountsParamList,
 } from './types';
 import {NavigatorContext} from './NavigationStore';
 import AccountsScreen from 'screens/Accounts/AccountsScreen/AccountsScreen';
 import {AddAccountScreen} from 'screens/Accounts/AddAccountScreen/AddAccountScreen';
+import {Home} from 'screens/Home/Home';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -31,8 +31,8 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="Home"
+        component={HomeNavigator}
         // options={{
         //   tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
         // }}
@@ -57,19 +57,19 @@ export default function BottomTabNavigator() {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const HomeStack = createStackNavigator<HomeParamList>();
 
-function TabOneNavigator() {
+function HomeNavigator() {
   const {screenOptions} = React.useContext(NavigatorContext);
 
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{...screenOptions, headerTitle: 'Tab One Title'}}
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={Home}
+        options={{...screenOptions, headerTitle: 'Home'}}
       />
-    </TabOneStack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
