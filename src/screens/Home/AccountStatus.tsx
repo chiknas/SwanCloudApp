@@ -1,8 +1,9 @@
-import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
-import {Account} from '../types';
-import {Title} from '../../../components/Title';
+import {Title} from 'components/Title';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, Image, Button} from 'react-native';
+import {Account} from 'screens/Accounts/types';
 import {AccountTableFields} from 'services/Database/Tables';
+import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
 
 const styles = StyleSheet.create({
   account_wrapper: {
@@ -24,13 +25,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export type AccountSummaryProps = {
+export type AccountStatusProps = {
   account: Account;
 };
 
-export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
+export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
   account,
 }) => {
+  const [numberOfPendingImages, setNumberOfPendingImages] = useState<number>(0);
+  const mediaAlbum = new MediaAlbum();
+  mediaAlbum.getLatestMedia(account.last_uploaded_timestamp).then((image) => {
+    setNumberOfPendingImages(image.edges.length);
+  });
   return (
     <View style={styles.account_wrapper}>
       <View style={styles.horizontal_wrapper}>
@@ -40,11 +46,9 @@ export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
         />
         <View style={styles.account}>
           <Title>{account[AccountTableFields.TEXT]}</Title>
-          <Text>
-            {account[AccountTableFields.ADDRESS]}:
-            {account[AccountTableFields.PORT]}
-          </Text>
+          <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
         </View>
+        <Button title="Sync" onPress={() => {}} />
       </View>
     </View>
   );
