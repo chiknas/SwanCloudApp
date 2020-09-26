@@ -5692,6 +5692,11 @@ react-native-floating-action@^1.21.0:
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.21.0.tgz#cb1e8349fec5b9aed06c8053c07372822c64b22f"
   integrity sha512-ozd/iaJunrEYc4eGUWkP+4UI8yoIL0nQsToI3hnJRste/3LPhBkyu0eG3RTjc6aFY+q++JpRmgO469Ck8jJOwg==
 
+react-native-ftp@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-ftp/-/react-native-ftp-1.0.1.tgz#8039fb3b38a7e281e0881afb768674fa630433c4"
+  integrity sha512-G6cGU/SkyKFnkpTTfhUE+l4ZlAxm/dEYhWGbrWlV/iFPFwdnh+sSNMqHH6GX9EfF1QtsgeTQibOepT6kQTdNJw==
+
 react-native-gesture-handler@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"

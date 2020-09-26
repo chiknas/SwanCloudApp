@@ -4,7 +4,7 @@ import {Account} from '../types';
 import {FloatingAction} from 'react-native-floating-action';
 import {AccountScreenProps} from '/navigation/types';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
-import {database} from '/services/Database';
+import {database} from '/services/Database/Database';
 
 export default function AccountsScreen({
   navigation,

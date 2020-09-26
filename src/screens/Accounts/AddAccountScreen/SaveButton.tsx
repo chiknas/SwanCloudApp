@@ -2,7 +2,7 @@ import React from 'react';
 import {AddAccountFieldProps} from './AddAccountScreen';
 import {View} from '/components/Themed';
 import {Button, StyleSheet} from 'react-native';
-import {database} from '/services/Database';
+import {database} from '/services/Database/Database';
 
 const styles = StyleSheet.create({
   button: {

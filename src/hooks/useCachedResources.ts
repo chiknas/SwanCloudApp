@@ -1,6 +1,6 @@
 import * as React from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import Database from 'services/Database';
+import Database from 'services/Database/Database';
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
