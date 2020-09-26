@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text, Image} from 'react-native';
 import {Account} from '../types';
 import {Title} from '../../../components/Title';
+import {AccountTableFields} from 'services/Database/Tables';
 
 const styles = StyleSheet.create({
   account_wrapper: {
@@ -38,9 +39,10 @@ export const AccountSummary: React.FunctionComponent<AccountSummaryProps> = ({
           style={styles.image}
         />
         <View style={styles.account}>
-          <Title>{account.text}</Title>
+          <Title>{account[AccountTableFields.TEXT]}</Title>
           <Text>
-            {account.address}:{account.port}
+            {account[AccountTableFields.ADDRESS]}:
+            {account[AccountTableFields.PORT]}
           </Text>
         </View>
       </View>

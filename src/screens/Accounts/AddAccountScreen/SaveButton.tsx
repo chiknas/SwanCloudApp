@@ -3,6 +3,7 @@ import {AddAccountFieldProps} from './AddAccountScreen';
 import {View} from '/components/Themed';
 import {Button, StyleSheet} from 'react-native';
 import {database} from '/services/Database/Database';
+import {AccountTableFields} from 'services/Database/Tables';
 
 const styles = StyleSheet.create({
   button: {
@@ -21,8 +22,16 @@ export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
     database.then((db) => {
       db.transaction((txn) => {
         txn.executeSql(
-          `INSERT INTO account(text, address, port, username, password)
-        VALUES ('${form.name}', '${form.address}', ${form.port}, '${form.username}', '${form.password}')`,
+          `INSERT INTO account(
+            ${AccountTableFields.TEXT}, ${AccountTableFields.ADDRESS}, ${
+            AccountTableFields.PORT
+          }, 
+            ${AccountTableFields.USERNAME}, ${AccountTableFields.PASSWORD}, ${
+            AccountTableFields.LAST_UPLOADED_TIMESTAMP
+          })
+        VALUES ('${form.name}', '${form.address}', ${form.port}, '${
+            form.username
+          }', '${form.password}', '${new Date().getTime()}')`,
           [],
           function () {
             screenProps?.navigation.navigate('AccountsScreen', {refresh: true});

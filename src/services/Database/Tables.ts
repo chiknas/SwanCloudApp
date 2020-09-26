@@ -1,39 +1,44 @@
-export type Column = {
-  name: string;
-  type: string;
-  required?: boolean;
-};
+import {Table} from './types';
 
-export type Table = {
-  name: string;
-  columns: Column[];
-};
+export enum AccountTableFields {
+  TEXT = 'text',
+  PORT = 'port',
+  ADDRESS = 'address',
+  USERNAME = 'username',
+  PASSWORD = 'password',
+  LAST_UPLOADED_TIMESTAMP = 'last_uploaded_timestamp',
+}
 
 const AccountTable: Table = {
   name: 'account',
   columns: [
     {
-      name: 'text',
+      name: AccountTableFields.TEXT,
       type: 'VARCHAR(255)',
       required: true,
     },
     {
-      name: 'port',
+      name: AccountTableFields.PORT,
       type: 'INT(5)',
       required: true,
     },
     {
-      name: 'address',
+      name: AccountTableFields.ADDRESS,
       type: 'VARCHAR(255)',
       required: true,
     },
     {
-      name: 'username',
+      name: AccountTableFields.USERNAME,
       type: 'VARCHAR(255)',
       required: true,
     },
     {
-      name: 'password',
+      name: AccountTableFields.PASSWORD,
+      type: 'VARCHAR(255)',
+      required: true,
+    },
+    {
+      name: AccountTableFields.LAST_UPLOADED_TIMESTAMP,
       type: 'VARCHAR(255)',
       required: true,
     },

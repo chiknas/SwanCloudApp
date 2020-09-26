@@ -1,7 +1,10 @@
+import {AccountTableFields} from 'services/Database/Tables';
+
 export type Account = {
-  text: string;
-  address: string;
-  port: number;
-  usename: string;
-  password: string;
+  [AccountTableFields.TEXT]: string;
+  [AccountTableFields.ADDRESS]: string;
+  [AccountTableFields.PORT]: number;
+  [AccountTableFields.USERNAME]: string;
+  [AccountTableFields.PASSWORD]: string;
+  [AccountTableFields.LAST_UPLOADED_TIMESTAMP]: string;
 };
