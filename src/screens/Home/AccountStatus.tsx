@@ -46,12 +46,10 @@ export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
 
   const onSync = useCallback(() => {
     latestMediaFilesPromise.then((result) => {
-      const fileUrls = result.edges.map((edge) =>
-        edge.node.image.uri.replace('file://', ''),
-      );
-      ftp.uploadFiles(fileUrls, account);
+      const files = result.edges.map((edge) => mediaAlbum.edgeToFile(edge));
+      ftp.uploadFiles(files, account);
     });
-  }, [account, ftp, latestMediaFilesPromise]);
+  }, [account, ftp, latestMediaFilesPromise, mediaAlbum]);
 
   return (
     <View style={styles.account_wrapper}>

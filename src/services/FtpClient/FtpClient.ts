@@ -1,6 +1,7 @@
 import FTP from 'react-native-ftp';
 import {Account} from 'screens/Accounts/types';
 import {AccountTableFields} from 'services/Database/Tables';
+import { File } from 'services/MediaAlbum/types';
 
 export default class FtpClient {
   private login(account: Account): Promise<any> {
@@ -22,13 +23,14 @@ export default class FtpClient {
       });
   }
 
-  private async ftpUpload(files: string[]) {
+  private async ftpUpload(files: File[]) {
     for (const file of files) {
-      await FTP.uploadFile(file, '');
+      await FTP.uploadFile(file.uri, 'tempfile.tacitpart', '');
+      await FTP.renameFile('tempfile.tacitpart', file.filename);
     }
   }
 
-  uploadFiles(files: string[], account: Account) {
+  uploadFiles(files: File[], account: Account) {
     this.login(account)
       .then(async () => {
         console.log(`Logged into: ${account.text}. Starting upload of files.`);
