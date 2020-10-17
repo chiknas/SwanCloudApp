@@ -1,4 +1,3 @@
-import {View} from 'components/Themed';
 import React, {useEffect, useState} from 'react';
 import {Account} from 'screens/Accounts/types';
 import {database} from 'services/Database/Database';
@@ -19,7 +18,8 @@ export const Home: React.FunctionComponent = () => {
         });
       });
     });
-  });
+  }, []);
+
   return (
     <>
       {accounts &&

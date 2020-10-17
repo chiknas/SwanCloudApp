@@ -1,8 +1,9 @@
 import {Title} from 'components/Title';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet, View, Text, Image, Button} from 'react-native';
 import {Account} from 'screens/Accounts/types';
 import {AccountTableFields} from 'services/Database/Tables';
+import FtpClient from 'services/FtpClient/FtpClient';
 import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
 
 const styles = StyleSheet.create({
@@ -33,10 +34,25 @@ export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
   account,
 }) => {
   const [numberOfPendingImages, setNumberOfPendingImages] = useState<number>(0);
+  const ftp = new FtpClient();
   const mediaAlbum = new MediaAlbum();
-  mediaAlbum.getLatestMedia(account.last_uploaded_timestamp).then((image) => {
+  const latestMediaFilesPromise = mediaAlbum.getLatestMedia(
+    account.last_uploaded_timestamp,
+  );
+
+  latestMediaFilesPromise.then((image) => {
     setNumberOfPendingImages(image.edges.length);
   });
+
+  const onSync = useCallback(() => {
+    latestMediaFilesPromise.then((result) => {
+      const fileUrls = result.edges.map((edge) =>
+        edge.node.image.uri.replace('file://', ''),
+      );
+      ftp.uploadFiles(fileUrls, account);
+    });
+  }, [account, ftp, latestMediaFilesPromise]);
+
   return (
     <View style={styles.account_wrapper}>
       <View style={styles.horizontal_wrapper}>
@@ -48,7 +64,7 @@ export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
           <Title>{account[AccountTableFields.TEXT]}</Title>
           <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
         </View>
-        <Button title="Sync" onPress={() => {}} />
+        <Button title="Sync" onPress={onSync} />
       </View>
     </View>
   );
