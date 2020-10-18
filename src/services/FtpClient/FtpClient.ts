@@ -27,7 +27,7 @@ export default class FtpClient {
   }
 
   uploadFiles(files: File[], account: Account) {
-    this.login(account)
+    return this.login(account)
       .then(async () => {
         console.log(`Logged into: ${account.name}. Starting upload of files.`);
         await this.ftpUpload(files);
