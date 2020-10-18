@@ -15,6 +15,9 @@ export default class MediaAlbum {
     return {
       filename: edge.node.image.filename,
       uri: edge.node.image.uri.replace('file://', ''),
+      // CameraRoll returns the time in this format 1603030027.898 for some reason.
+      // this refactors it to a normal timestamp 1603030027898
+      timestamp: parseInt(edge.node.timestamp.toString().replace('.', ''), 10),
     };
   }
 }
