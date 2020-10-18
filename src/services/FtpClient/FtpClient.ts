@@ -1,24 +1,20 @@
 import FTP from 'react-native-ftp';
-import {Account} from 'screens/Accounts/types';
-import {AccountTableFields} from 'services/Database/Tables';
-import { File } from 'services/MediaAlbum/types';
+import {Account} from 'services/AsyncStorage/type';
+import {File} from 'services/MediaAlbum/types';
 
 export default class FtpClient {
   private login(account: Account): Promise<any> {
     FTP.setup(account.address, account.port);
-    return FTP.login(
-      account[AccountTableFields.USERNAME],
-      account[AccountTableFields.PASSWORD],
-    );
+    return FTP.login(account.username, account.password);
   }
 
   connectionTest(account: Account) {
     this.login(account)
       .then(() => {
-        console.log(`Logged into: ${account.text}.`);
+        console.log(`Logged into: ${account.name}.`);
       })
       .finally(() => {
-        console.log(`Loggin out of ${account.text}.`);
+        console.log(`Loggin out of ${account.name}.`);
         FTP.logout();
       });
   }
@@ -33,9 +29,9 @@ export default class FtpClient {
   uploadFiles(files: File[], account: Account) {
     this.login(account)
       .then(async () => {
-        console.log(`Logged into: ${account.text}. Starting upload of files.`);
+        console.log(`Logged into: ${account.name}. Starting upload of files.`);
         await this.ftpUpload(files);
-        console.log(`Successful upload of files to ${account.text}.`);
+        console.log(`Successful upload of files to ${account.name}.`);
         FTP.logout();
       })
       .catch((error) => {

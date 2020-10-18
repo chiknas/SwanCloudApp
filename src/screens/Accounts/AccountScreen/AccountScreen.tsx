@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {StyleSheet, Button} from 'react-native';
-import {View} from '../../../components/Themed';
-import {AccountScreenProps} from '../../../navigation/types';
-import {Title} from '../../../components/Title';
-import {Divider} from '../../../components/Divider';
+import {View} from 'components/Themed';
+import {AccountScreenProps} from 'navigation/types';
+import {Title} from 'components/Title';
+import {Divider} from 'components/Divider';
 import {AccountName} from './AccountName';
 import {AccountUsername} from './AccountUsername';
 import {AccountPassword} from './AccountPassword';
@@ -12,6 +12,7 @@ import {AccountAddress} from './AccountAddress';
 import {AccountPort} from './AccountPort';
 import {SaveButton} from './SaveButton';
 import {ScrollView} from 'react-native-gesture-handler';
+import {Account} from 'services/AsyncStorage/type';
 
 const styles = StyleSheet.create({
   form: {
@@ -30,29 +31,22 @@ const styles = StyleSheet.create({
   },
 });
 
-export type AccountForm = {
-  name: string;
-  address: string;
-  port: number;
-  username: string;
-  password: string;
-};
-
 export type AddAccountFieldProps = {
-  setForm: (value: React.SetStateAction<AccountForm>) => void;
-  form?: AccountForm;
+  setForm: (value: React.SetStateAction<Account>) => void;
+  form?: Account;
   screenProps?: AccountScreenProps;
 };
 
 export const AccountScreen: React.FunctionComponent<AccountScreenProps> = (
   screenProps,
 ) => {
-  const [form, setForm] = useState<AccountForm>({
+  const [form, setForm] = useState<Account>({
     name: '',
     address: '',
     port: 21,
     username: '',
     password: '',
+    lastUploadedTimestamp: new Date().getTime(),
   });
 
   return (

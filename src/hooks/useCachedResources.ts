@@ -1,6 +1,5 @@
 import * as React from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import Database from 'services/Database/Database';
 import {PermissionsAndroid} from 'react-native';
 
 async function requestReadPermission() {
@@ -22,8 +21,6 @@ export default function useCachedResources() {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        // init database
-        await new Database().init();
         // get read permission to read files on the device
         await requestReadPermission();
       } catch (e) {

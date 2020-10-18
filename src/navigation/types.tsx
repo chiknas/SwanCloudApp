@@ -17,6 +17,7 @@ export type HomeParamList = {
 
 export type AccountsParamList = {
   AccountScreen: undefined;
+  HomeScreen: undefined;
 };
 
 export type AccountScreenProps = StackScreenProps<

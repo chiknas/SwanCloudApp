@@ -2,8 +2,8 @@ import React from 'react';
 import {AddAccountFieldProps} from './AccountScreen';
 import {View} from '/components/Themed';
 import {Button, StyleSheet} from 'react-native';
-import {database} from '/services/Database/Database';
-import {AccountTableFields} from 'services/Database/Tables';
+import {storeItem} from 'services/AsyncStorage/storageHelpers';
+import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
 
 const styles = StyleSheet.create({
   button: {
@@ -19,25 +19,8 @@ export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
     if (!form) {
       return;
     }
-    database.then((db) => {
-      db.transaction((txn) => {
-        txn.executeSql(
-          `INSERT INTO account(
-            ${AccountTableFields.TEXT}, ${AccountTableFields.ADDRESS}, ${
-            AccountTableFields.PORT
-          }, 
-            ${AccountTableFields.USERNAME}, ${AccountTableFields.PASSWORD}, ${
-            AccountTableFields.LAST_UPLOADED_TIMESTAMP
-          })
-        VALUES ('${form.name}', '${form.address}', ${form.port}, '${
-            form.username
-          }', '${form.password}', '${new Date().getTime()}')`,
-          [],
-          function () {
-            screenProps?.navigation.navigate('AccountScreen');
-          },
-        );
-      });
+    storeItem(STORAGE_ITEMS.ACCOUNT, form).then(() => {
+      screenProps?.navigation.navigate('HomeScreen');
     });
   };
 

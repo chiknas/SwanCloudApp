@@ -1,8 +1,7 @@
 import {Title} from 'components/Title';
 import React, {useCallback, useState} from 'react';
 import {StyleSheet, View, Text, Image, Button} from 'react-native';
-import {Account} from 'screens/Accounts/types';
-import {AccountTableFields} from 'services/Database/Tables';
+import {Account} from 'services/AsyncStorage/type';
 import FtpClient from 'services/FtpClient/FtpClient';
 import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
 
@@ -37,7 +36,7 @@ export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
   const ftp = new FtpClient();
   const mediaAlbum = new MediaAlbum();
   const latestMediaFilesPromise = mediaAlbum.getLatestMedia(
-    account.last_uploaded_timestamp,
+    account.lastUploadedTimestamp.toString(),
   );
 
   latestMediaFilesPromise.then((image) => {
@@ -59,7 +58,7 @@ export const AccountStatus: React.FunctionComponent<AccountStatusProps> = ({
           style={styles.image}
         />
         <View style={styles.account}>
-          <Title>{account[AccountTableFields.TEXT]}</Title>
+          <Title>{account.name}</Title>
           <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
         </View>
         <Button title="Sync" onPress={onSync} />

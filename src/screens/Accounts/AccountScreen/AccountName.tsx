@@ -1,23 +1,25 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextField} from '../../../components/TextField';
 import {AddAccountFieldProps} from './AccountScreen';
 import {View, ViewProps} from '../../../components/Themed';
-import {database} from 'services/Database/Database';
-import {Account} from '../types';
-import {AccountTableFields} from 'services/Database/Tables';
+import {Account} from 'services/AsyncStorage/type';
+import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 
 export const AccountName: React.FunctionComponent<
   AddAccountFieldProps & ViewProps
 > = ({setForm, ...viewProps}) => {
   const [currentAccountName, setCurrentAccountName] = useState<string>('');
-  database.then((db) => {
-    db.transaction((txn) => {
-      txn.executeSql('SELECT * FROM account', [], function (tx, res) {
-        const account: Account = res.rows.item(0);
-        setCurrentAccountName(account[AccountTableFields.TEXT]);
+
+  useEffect(() => {
+    getStorageItem(STORAGE_ITEMS.ACCOUNT).then((account: Account) => {
+      setCurrentAccountName(account.name);
+      setForm((form) => {
+        form.name = account.name;
+        return form;
       });
     });
-  });
+  }, [setForm]);
 
   return (
     <View {...viewProps}>

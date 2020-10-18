@@ -1,23 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextField} from '../../../components/TextField';
 import {AddAccountFieldProps} from './AccountScreen';
 import {View, ViewProps} from '../../../components/Themed';
-import {database} from 'services/Database/Database';
-import {Account} from '../types';
-import {AccountTableFields} from 'services/Database/Tables';
+import {Account, STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 
 export const AccountPort: React.FunctionComponent<
   AddAccountFieldProps & ViewProps
 > = ({setForm, ...viewProps}) => {
   const [currentAccountPort, setCurrentAccountPort] = useState<number>(21);
-  database.then((db) => {
-    db.transaction((txn) => {
-      txn.executeSql('SELECT * FROM account', [], function (tx, res) {
-        const account: Account = res.rows.item(0);
-        setCurrentAccountPort(account[AccountTableFields.PORT]);
+
+  useEffect(() => {
+    getStorageItem(STORAGE_ITEMS.ACCOUNT).then((account: Account) => {
+      setCurrentAccountPort(account.port);
+      setForm((form) => {
+        form.port = account.port;
+        return form;
       });
     });
-  });
+  }, [setForm]);
 
   return (
     <View {...viewProps}>

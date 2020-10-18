@@ -11,6 +11,7 @@
     "lint:fix": "eslint --ext=jsx,ts,tsx src --fix"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.9.0",
@@ -23,8 +24,7 @@
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.8",
     "react-native-screens": "^2.11.0",
-    "react-native-splash-screen": "^3.2.0",
-    "react-native-sqlite-storage": "^5.0.0"
+    "react-native-splash-screen": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
@@ -33,7 +33,6 @@
     "@types/jest": "^26.0.14",
     "@types/react": "^16.9.49",
     "@types/react-native": "^0.63.20",
-    "@types/react-native-sqlite-storage": "^5.0.0",
     "@types/react-test-renderer": "^16.9.3",
     "babel-jest": "^25.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
