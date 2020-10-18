@@ -1,9 +1,9 @@
 import React from 'react';
 import {TextField} from '../../../components/TextField';
-import {AddAccountFieldProps} from './AddAccountScreen';
+import {AddAccountFieldProps} from './AccountScreen';
 import {View, ViewProps} from '../../../components/Themed';
 
-export const AccountPassword: React.FunctionComponent<
+export const AccountName: React.FunctionComponent<
   AddAccountFieldProps & ViewProps
 > = ({setForm, ...viewProps}) => {
   return (
@@ -11,12 +11,11 @@ export const AccountPassword: React.FunctionComponent<
       <TextField
         onChangeText={(text) =>
           setForm((form) => {
-            form.password = text;
+            form.name = text;
             return form;
           })
         }
-        secureTextEntry={true}
-        label="Password"
+        label="Name"
       />
     </View>
   );

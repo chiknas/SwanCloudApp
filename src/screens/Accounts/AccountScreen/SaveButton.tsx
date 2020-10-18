@@ -1,5 +1,5 @@
 import React from 'react';
-import {AddAccountFieldProps} from './AddAccountScreen';
+import {AddAccountFieldProps} from './AccountScreen';
 import {View} from '/components/Themed';
 import {Button, StyleSheet} from 'react-native';
 import {database} from '/services/Database/Database';
@@ -34,7 +34,7 @@ export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
           }', '${form.password}', '${new Date().getTime()}')`,
           [],
           function () {
-            screenProps?.navigation.navigate('AccountsScreen', {refresh: true});
+            screenProps?.navigation.navigate('AccountScreen');
           },
         );
       });

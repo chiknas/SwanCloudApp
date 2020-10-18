@@ -12,9 +12,8 @@ import {
   AccountsParamList,
 } from './types';
 import {NavigatorContext} from './NavigationStore';
-import AccountsScreen from 'screens/Accounts/AccountsScreen/AccountsScreen';
-import {AddAccountScreen} from 'screens/Accounts/AddAccountScreen/AddAccountScreen';
 import {Home} from 'screens/Home/Home';
+import {AccountScreen} from 'screens/Accounts/AccountScreen/AccountScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -97,13 +96,8 @@ function AccountsNavigator() {
   return (
     <AccountsStack.Navigator>
       <AccountsStack.Screen
-        name="AccountsScreen"
-        component={AccountsScreen}
-        options={{...screenOptions, headerTitle: 'Accounts'}}
-      />
-      <AccountsStack.Screen
-        name="AddAccountScreen"
-        component={AddAccountScreen}
+        name="AccountScreen"
+        component={AccountScreen}
         options={{
           ...screenOptions,
           headerTitle: 'New Account',

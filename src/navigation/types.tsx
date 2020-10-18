@@ -16,23 +16,12 @@ export type HomeParamList = {
 };
 
 export type AccountsParamList = {
-  AccountsScreen:
-    | {
-        refresh: boolean;
-      }
-    | undefined;
-  AccountDetailsScreen: undefined;
-  AddAccountScreen: undefined;
+  AccountScreen: undefined;
 };
-
-export type AddAccountScreenProps = StackScreenProps<
-  AccountsParamList,
-  'AddAccountScreen'
->;
 
 export type AccountScreenProps = StackScreenProps<
   AccountsParamList,
-  'AccountsScreen'
+  'AccountScreen'
 >;
 
 export type TabTwoParamList = {

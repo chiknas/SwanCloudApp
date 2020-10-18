@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Button} from 'react-native';
 import {View} from '../../../components/Themed';
-import {AddAccountScreenProps} from '../../../navigation/types';
+import {AccountScreenProps} from '../../../navigation/types';
 import {Title} from '../../../components/Title';
 import {Divider} from '../../../components/Divider';
 import {AccountName} from './AccountName';
@@ -41,10 +41,10 @@ export type AccountForm = {
 export type AddAccountFieldProps = {
   setForm: (value: React.SetStateAction<AccountForm>) => void;
   form?: AccountForm;
-  screenProps?: AddAccountScreenProps;
+  screenProps?: AccountScreenProps;
 };
 
-export const AddAccountScreen: React.FunctionComponent<AddAccountScreenProps> = (
+export const AccountScreen: React.FunctionComponent<AccountScreenProps> = (
   screenProps,
 ) => {
   const [form, setForm] = useState<AccountForm>({

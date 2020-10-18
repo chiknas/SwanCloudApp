@@ -1,9 +1,9 @@
 import React from 'react';
 import {TextField} from '../../../components/TextField';
-import {AddAccountFieldProps} from './AddAccountScreen';
+import {AddAccountFieldProps} from './AccountScreen';
 import {View, ViewProps} from '../../../components/Themed';
 
-export const AccountName: React.FunctionComponent<
+export const AccountAddress: React.FunctionComponent<
   AddAccountFieldProps & ViewProps
 > = ({setForm, ...viewProps}) => {
   return (
@@ -11,11 +11,11 @@ export const AccountName: React.FunctionComponent<
       <TextField
         onChangeText={(text) =>
           setForm((form) => {
-            form.name = text;
+            form.address = text;
             return form;
           })
         }
-        label="Name"
+        label="Address"
       />
     </View>
   );
