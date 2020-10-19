@@ -71,7 +71,7 @@ export const AccountScreen: React.FunctionComponent<AccountScreenProps> = (
           styles.horizontal_wrapper,
           {justifyContent: 'flex-end'},
         ]}>
-        <View style={{width: 100, marginRight: 10}}>
+        <View style={{marginRight: 10}}>
           <ConnectionTestButton account={form} />
         </View>
         <SaveButton setForm={setForm} screenProps={screenProps} form={form} />

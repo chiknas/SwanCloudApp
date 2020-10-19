@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useCallback, useEffect, useState} from 'react';
 import {Account} from 'services/AsyncStorage/type';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
@@ -12,7 +13,7 @@ import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
 
 const styles = StyleSheet.create({
   homeContent: {
-    padding: 0,
+    padding: 20,
     flex: 1,
     display: 'flex',
   },
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
-    padding: 20,
   },
   title: {
     flex: 1,
@@ -83,8 +83,9 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
               account.lastUploadedTimestamp,
             )}`}</Text>
           </View>
-          <View style={styles.horizontal_wrapper}>
-            <View style={styles.flex}>
+          <View
+            style={[styles.horizontal_wrapper, {justifyContent: 'flex-end'}]}>
+            <View style={{marginRight: 10, width: 100}}>
               <Button
                 title="Refresh"
                 onPress={() => {
@@ -93,7 +94,7 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
                 color={'#f5ce42'}
               />
             </View>
-            <View style={styles.flex}>
+            <View style={{width: 100}}>
               <Button title="Sync" onPress={onSync} />
             </View>
           </View>

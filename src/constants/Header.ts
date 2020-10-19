@@ -1,5 +1,5 @@
 export const HeaderStyles = {
-  backgroundColor: '#f4511e',
+  backgroundColor: '#913b26',
   headerTintColor: '#fff',
   fontWeight: 'bold',
 };

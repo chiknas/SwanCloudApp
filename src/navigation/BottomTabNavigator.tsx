@@ -11,20 +11,14 @@ import {
   TabTwoParamList,
   AccountsParamList,
 } from './types';
-import {NavigatorContext} from './NavigationStore';
 import {Home} from 'screens/Home/Home';
 import {AccountScreen} from 'screens/Accounts/AccountScreen/AccountScreen';
+import {Image} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
-  // You can explore the built-in icon families and icons on the web at:
-  // https://icons.expo.fyi/
-  // function TabBarIcon(props: { name: string; color: string }) {
-  //   return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-  // }
 
   return (
     <BottomTab.Navigator
@@ -32,23 +26,41 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
-        // options={{
-        //   tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
-        // }}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              width={1}
+              height={1}
+              source={require('assets/images/home.png')}
+            />
+          ),
+        }}
       />
       <BottomTab.Screen
         name="Accounts"
         component={AccountsNavigator}
-        // options={{
-        //   tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
-        // }}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              width={1}
+              height={1}
+              source={require('assets/images/account_icon.png')}
+            />
+          ),
+        }}
       />
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoNavigator}
-        // options={{
-        //   tabBarIcon: ({color}) => <TabBarIcon name="ios-code" color={color} />,
-        // }}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              width={1}
+              height={1}
+              source={require('assets/images/settings.png')}
+            />
+          ),
+        }}
       />
     </BottomTab.Navigator>
   );
@@ -59,14 +71,12 @@ export default function BottomTabNavigator() {
 const HomeStack = createStackNavigator<HomeParamList>();
 
 function HomeNavigator() {
-  const {screenOptions} = React.useContext(NavigatorContext);
-
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="HomeScreen"
         component={Home}
-        options={{...screenOptions, headerTitle: 'Home'}}
+        options={{headerShown: false}}
       />
     </HomeStack.Navigator>
   );
@@ -75,14 +85,12 @@ function HomeNavigator() {
 const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
 function TabTwoNavigator() {
-  const {screenOptions} = React.useContext(NavigatorContext);
-
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="TabTwoScreen"
         component={TabTwoScreen}
-        options={{...screenOptions, headerTitle: 'Tab Two Title'}}
+        options={{headerShown: false}}
       />
     </TabTwoStack.Navigator>
   );
@@ -91,17 +99,12 @@ function TabTwoNavigator() {
 const AccountsStack = createStackNavigator<AccountsParamList>();
 
 function AccountsNavigator() {
-  const {screenOptions} = React.useContext(NavigatorContext);
-
   return (
     <AccountsStack.Navigator>
       <AccountsStack.Screen
         name="AccountScreen"
         component={AccountScreen}
-        options={{
-          ...screenOptions,
-          headerTitle: 'New Account',
-        }}
+        options={{headerShown: false}}
       />
     </AccountsStack.Navigator>
   );
