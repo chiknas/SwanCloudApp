@@ -10,7 +10,7 @@ export default class FtpClient {
   }
 
   connectionTest(account: Account) {
-    this.login(account)
+    return this.login(account)
       .then(() => {
         console.log(`Logged into: ${account.name}.`);
       })

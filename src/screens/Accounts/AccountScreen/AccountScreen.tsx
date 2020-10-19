@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {StyleSheet, Button} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {View} from 'components/Themed';
 import {AccountScreenProps} from 'navigation/types';
 import {Title} from 'components/Title';
@@ -13,6 +13,7 @@ import {AccountPort} from './AccountPort';
 import {SaveButton} from './SaveButton';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Account} from 'services/AsyncStorage/type';
+import {ConnectionTestButton} from './ConnectionTestButton';
 
 const styles = StyleSheet.create({
   form: {
@@ -71,12 +72,7 @@ export const AccountScreen: React.FunctionComponent<AccountScreenProps> = (
           {justifyContent: 'flex-end'},
         ]}>
         <View style={{width: 100, marginRight: 10}}>
-          <Button
-            color={'#f5ce42'}
-            onPress={() => console.log(form)}
-            title="test">
-            TEST
-          </Button>
+          <ConnectionTestButton account={form} />
         </View>
         <SaveButton setForm={setForm} screenProps={screenProps} form={form} />
       </View>
