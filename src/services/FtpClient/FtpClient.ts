@@ -1,5 +1,5 @@
 import FTP from 'react-native-ftp';
-import {updateAccountTimestamp} from 'services/AsyncStorage/AccountHelpers';
+import {updateAccountTimestamp} from 'services/AsyncStorage/accountHelpers';
 import {Account} from 'services/AsyncStorage/type';
 import {File} from 'services/MediaAlbum/types';
 
