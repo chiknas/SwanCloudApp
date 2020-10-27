@@ -14,6 +14,7 @@ import {SaveButton} from './SaveButton';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Account} from 'services/AsyncStorage/type';
 import {ConnectionTestButton} from './ConnectionTestButton';
+import {AccountTimestamp} from './AccountTimestamp';
 
 const styles = StyleSheet.create({
   form: {
@@ -64,6 +65,7 @@ export const AccountScreen: React.FunctionComponent<AccountScreenProps> = (
           <AccountAddress setForm={setForm} style={{flex: 2}} />
           <AccountPort setForm={setForm} style={{flex: 1, marginLeft: 5}} />
         </View>
+        <AccountTimestamp setForm={setForm} style={styles.form_item} />
       </ScrollView>
       <View
         style={[
