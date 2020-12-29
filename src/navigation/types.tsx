@@ -6,10 +6,20 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
+  Gallery: undefined;
   Home: undefined;
   Accounts: undefined;
   TabTwo: undefined;
 };
+
+export type GalleryParamList = {
+  GalleryScreen: undefined;
+};
+
+export type GalleryScreenProps = StackScreenProps<
+  GalleryParamList,
+  'GalleryScreen'
+>;
 
 export type HomeParamList = {
   HomeScreen: undefined;

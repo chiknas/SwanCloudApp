@@ -10,7 +10,9 @@ import {
   HomeParamList,
   TabTwoParamList,
   AccountsParamList,
+  GalleryParamList,
 } from './types';
+import {Gallery} from 'screens/Gallery/Gallery';
 import {Home} from 'screens/Home/Home';
 import {AccountScreen} from 'screens/Accounts/AccountScreen/AccountScreen';
 import {Image} from 'react-native';
@@ -23,6 +25,19 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+      <BottomTab.Screen
+        name="Gallery"
+        component={GalleryNavigator}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              width={1}
+              height={1}
+              source={require('assets/images/home.png')}
+            />
+          ),
+        }}
+      />
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
@@ -68,6 +83,20 @@ export default function BottomTabNavigator() {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
+const GalleryStack = createStackNavigator<GalleryParamList>();
+
+function GalleryNavigator() {
+  return (
+    <GalleryStack.Navigator>
+      <GalleryStack.Screen
+        name="GalleryScreen"
+        component={Gallery}
+        options={{headerShown: false}}
+      />
+    </GalleryStack.Navigator>
+  );
+}
+
 const HomeStack = createStackNavigator<HomeParamList>();
 
 function HomeNavigator() {
