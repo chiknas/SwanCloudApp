@@ -1,3 +1,7 @@
 export type GalleryItem = {
-  thumbnail: String;
+  id: string;
+  createdDate: string;
+  fileName: string;
+  path: string;
+  thumbnail: string;
 };

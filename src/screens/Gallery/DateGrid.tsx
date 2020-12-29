@@ -6,23 +6,28 @@ import {GalleryItem} from './types';
 
 const styles = StyleSheet.create({
   container: {paddingTop: 20},
-  title: {padding: 20},
+  date: {padding: 20},
 });
 
 export type DateGridProps = {
-  title: string;
+  date: string;
   items: GalleryItem[];
 };
 
 export const DateGrid: React.FunctionComponent<DateGridProps> = ({
-  title,
+  date,
   items,
 }) => {
   const gridColumns = 4;
 
   const data = useMemo(() => {
+    // how many items we need to fill all boxes for all columns.
     const missingItems = gridColumns - (items.length % gridColumns);
     const emptyItem: GalleryItem = {
+      id: '',
+      path: '',
+      fileName: '',
+      createdDate: '',
       thumbnail: '',
     };
     const missingData =
@@ -32,7 +37,7 @@ export const DateGrid: React.FunctionComponent<DateGridProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.date}>{date}</Text>
       <FlatList
         data={data}
         renderItem={({item}) => <FileThumbnail item={item} />}
