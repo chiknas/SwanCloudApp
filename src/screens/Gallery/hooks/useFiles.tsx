@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react';
+import {DependencyList, useEffect, useState} from 'react';
 import {GalleryItem} from '../types';
 import {SWAN_SERVER_URL} from '@env';
 
-export const useFiles = () => {
+export const useFiles = (deps?: DependencyList) => {
   const [data, setData] = useState<GalleryItem[]>([]);
 
   useEffect(() => {
@@ -16,6 +16,6 @@ export const useFiles = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, deps);
   return data;
 };
