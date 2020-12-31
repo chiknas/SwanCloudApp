@@ -4,12 +4,11 @@ import {Account} from 'services/AsyncStorage/type';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
 import {HomeScreenProps} from 'navigation/types';
-
 import {Button, StyleSheet} from 'react-native';
 import {Text, View} from 'components/Themed';
 import {Title} from 'components/Title';
-import FtpClient from 'services/FtpClient/FtpClient';
 import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
+import {syncFiles} from 'services/FileSyncTask';
 
 const styles = StyleSheet.create({
   homeContent: {
@@ -39,7 +38,6 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
 }: HomeScreenProps) => {
   const [account, setAccount] = useState<Account>();
   const [numberOfPendingImages, setNumberOfPendingImages] = useState<number>(0);
-  const ftp = new FtpClient();
   const mediaAlbum = new MediaAlbum();
 
   const latestMediaFilesPromise =
@@ -62,15 +60,6 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
       updateAccount();
     });
   }, [navigation, updateAccount]);
-
-  const onSync = useCallback(() => {
-    latestMediaFilesPromise &&
-      account &&
-      latestMediaFilesPromise.then((result) => {
-        const files = result.edges.map((edge) => mediaAlbum.edgeToFile(edge));
-        ftp.uploadFiles(files, account);
-      });
-  }, [account, ftp, latestMediaFilesPromise, mediaAlbum]);
 
   return (
     <>
@@ -95,7 +84,7 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
               />
             </View>
             <View style={{width: 100}}>
-              <Button title="Sync" onPress={onSync} />
+              <Button title="Sync" onPress={syncFiles} />
             </View>
           </View>
         </View>

@@ -5739,10 +5739,6 @@ react-native-dotenv@^2.4.3:
   dependencies:
     dotenv "^8.0.0"
 
-"react-native-ftp@git://github.com/chiknas/react-native-ftp.git":
-  version "1.0.0"
-  resolved "git://github.com/chiknas/react-native-ftp.git#e974f7d1e254be83caf9be086c24c0a083cfa450"
-
 react-native-gesture-handler@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"

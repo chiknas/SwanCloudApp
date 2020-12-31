@@ -6,10 +6,11 @@ import Navigation from 'navigation/Navigation';
 import useCachedResources from 'hooks/useCachedResources';
 import {HeaderStyles} from 'constants/Header';
 import BackgroundFetch from 'react-native-background-fetch';
+import {syncFiles} from 'services/FileSyncTask';
 
 // Background task for androids that runs when the app is terminated
 BackgroundFetch.registerHeadlessTask(async (event) => {
-  console.log('[BackgroundFetch HeadlessTask] start: ', event.taskId);
+  await syncFiles();
   BackgroundFetch.finish(event.taskId);
 });
 
@@ -19,7 +20,6 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    // Configure it.
     BackgroundFetch.configure(
       {
         minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
@@ -28,21 +28,18 @@ export default function App() {
         stopOnTerminate: false,
         enableHeadless: true,
         startOnBoot: true,
-        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
-        requiresCharging: false, // Default
-        requiresDeviceIdle: false, // Default
-        requiresBatteryNotLow: false, // Default
-        requiresStorageNotLow: false, // Default
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE,
+        requiresCharging: false,
+        requiresDeviceIdle: false,
+        requiresBatteryNotLow: false,
+        requiresStorageNotLow: false,
       },
       async (taskId) => {
-        console.log('[js] Received background-fetch event: ', taskId);
-        // Required: Signal completion of your task to native code
-        // If you fail to do this, the OS can terminate your app
-        // or assign battery-blame for consuming too much background-time
+        await syncFiles();
         BackgroundFetch.finish(taskId);
       },
       (error) => {
-        console.log('[js] RNBackgroundFetch failed to start');
+        console.log(error);
       },
     );
 

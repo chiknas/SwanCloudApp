@@ -22,7 +22,6 @@
     "react-native": "0.63.2",
     "react-native-background-fetch": "^3.1.0",
     "react-native-dotenv": "^2.4.3",
-    "react-native-ftp": "git://github.com/chiknas/react-native-ftp.git",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.8",
