@@ -9,12 +9,12 @@ import {
   BottomTabParamList,
   HomeParamList,
   TabTwoParamList,
-  AccountsParamList,
+  SettingsParamList,
   GalleryParamList,
 } from './types';
 import {Gallery} from 'screens/Gallery/Gallery';
 import {Home} from 'screens/Home/Home';
-import {AccountScreen} from 'screens/Accounts/AccountScreen/AccountScreen';
+import {SettingsScreen} from 'screens/Settings/Settings';
 import {Image} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -52,8 +52,8 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Accounts"
-        component={AccountsNavigator}
+        name="Settings"
+        component={SettingsNavigator}
         options={{
           tabBarIcon: () => (
             <Image
@@ -125,16 +125,16 @@ function TabTwoNavigator() {
   );
 }
 
-const AccountsStack = createStackNavigator<AccountsParamList>();
+const SettingsStack = createStackNavigator<SettingsParamList>();
 
-function AccountsNavigator() {
+function SettingsNavigator() {
   return (
-    <AccountsStack.Navigator>
-      <AccountsStack.Screen
-        name="AccountScreen"
-        component={AccountScreen}
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
         options={{headerShown: false}}
       />
-    </AccountsStack.Navigator>
+    </SettingsStack.Navigator>
   );
 }

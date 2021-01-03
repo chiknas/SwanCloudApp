@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useCallback, useEffect, useState} from 'react';
-import {Account} from 'services/AsyncStorage/type';
+import {Settings} from 'services/AsyncStorage/type';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
 import {HomeScreenProps} from 'navigation/types';
@@ -36,40 +36,40 @@ const styles = StyleSheet.create({
 export const Home: React.FunctionComponent<HomeScreenProps> = ({
   navigation,
 }: HomeScreenProps) => {
-  const [account, setAccount] = useState<Account>();
+  const [settings, setSettings] = useState<Settings>();
   const [numberOfPendingImages, setNumberOfPendingImages] = useState<number>(0);
   const mediaAlbum = new MediaAlbum();
 
   const latestMediaFilesPromise =
-    account &&
-    mediaAlbum.getLatestMedia(account.lastUploadedTimestamp.toString());
+    settings &&
+    mediaAlbum.getLatestMedia(settings.lastUploadedTimestamp.toString());
 
   latestMediaFilesPromise &&
     latestMediaFilesPromise.then((image) => {
       setNumberOfPendingImages(image.edges.length);
     });
 
-  const updateAccount = useCallback(() => {
-    getStorageItem(STORAGE_ITEMS.ACCOUNT).then((currentAccount: Account) => {
-      setAccount(currentAccount);
+  const updateSettings = useCallback(() => {
+    getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
+      setSettings(settings);
     });
   }, []);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      updateAccount();
+      updateSettings();
     });
-  }, [navigation, updateAccount]);
+  }, [navigation, updateSettings]);
 
   return (
     <>
-      {account && (
+      {settings && (
         <View style={styles.homeContent}>
           <View style={styles.flex}>
-            <Title>{account.name}</Title>
+            <Title>Swan Server</Title>
             <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
             <Text>{`Last upload: ${new Date(
-              account.lastUploadedTimestamp,
+              settings.lastUploadedTimestamp,
             )}`}</Text>
           </View>
           <View
@@ -78,7 +78,7 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
               <Button
                 title="Refresh"
                 onPress={() => {
-                  updateAccount();
+                  updateSettings();
                 }}
                 color={'#f5ce42'}
               />

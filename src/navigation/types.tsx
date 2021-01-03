@@ -8,7 +8,7 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   Gallery: undefined;
   Home: undefined;
-  Accounts: undefined;
+  Settings: undefined;
   TabTwo: undefined;
 };
 
@@ -27,14 +27,14 @@ export type HomeParamList = {
 
 export type HomeScreenProps = StackScreenProps<HomeParamList, 'HomeScreen'>;
 
-export type AccountsParamList = {
-  AccountScreen: undefined;
+export type SettingsParamList = {
+  SettingsScreen: undefined;
   HomeScreen: undefined;
 };
 
-export type AccountScreenProps = StackScreenProps<
-  AccountsParamList,
-  'AccountScreen'
+export type SettingsScreenProps = StackScreenProps<
+  SettingsParamList,
+  'SettingsScreen'
 >;
 
 export type TabTwoParamList = {

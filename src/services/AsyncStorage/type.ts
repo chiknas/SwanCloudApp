@@ -1,12 +1,7 @@
 export enum STORAGE_ITEMS {
-  ACCOUNT = 'account',
+  SETTINGS = 'settings',
 }
 
-export type Account = {
-  name: string;
-  address: string;
-  port: number;
-  username: string;
-  password: string;
+export type Settings = {
   lastUploadedTimestamp: number;
 };

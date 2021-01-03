@@ -2,32 +2,36 @@ import React, {useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {TextField} from 'components/TextField';
 import {View, ViewProps} from 'components/Themed';
-import {AddAccountFieldProps} from './AccountScreen';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
-import {Account, STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {Settings, STORAGE_ITEMS} from 'services/AsyncStorage/type';
 
-export const AccountTimestamp: React.FunctionComponent<
-  AddAccountFieldProps & ViewProps
-> = ({setForm, ...viewProps}) => {
+export type LastSyncTimestampProps = {
+  settings: Settings;
+  setSettings: (value: React.SetStateAction<Settings>) => void;
+};
+
+export const LastSyncTimestamp: React.FunctionComponent<
+  LastSyncTimestampProps & ViewProps
+> = ({setSettings, ...viewProps}) => {
   const [date, setDate] = useState<Date>(new Date());
   const [show, setShow] = useState<boolean>(false);
 
   const onChange = (selectedDate?: Date) => {
     selectedDate && setDate(selectedDate);
     selectedDate &&
-      setForm((form) => {
-        form.lastUploadedTimestamp = selectedDate.getTime();
-        return form;
+      setSettings((settings) => {
+        settings.lastUploadedTimestamp = selectedDate.getTime();
+        return settings;
       });
     setShow(false);
   };
 
   useEffect(() => {
-    getStorageItem(STORAGE_ITEMS.ACCOUNT).then((account: Account) => {
-      onChange(new Date(account.lastUploadedTimestamp));
+    getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
+      onChange(new Date(settings.lastUploadedTimestamp));
     });
-  }, [setForm]);
+  }, [setSettings]);
 
   return (
     <TouchableOpacity

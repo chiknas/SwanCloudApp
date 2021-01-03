@@ -1,9 +1,8 @@
 import React from 'react';
-import {AddAccountFieldProps} from './AccountScreen';
 import {View} from '/components/Themed';
-import {Button, StyleSheet} from 'react-native';
+import {Alert, Button, StyleSheet} from 'react-native';
 import {storeItem} from 'services/AsyncStorage/storageHelpers';
-import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {Settings, STORAGE_ITEMS} from 'services/AsyncStorage/type';
 
 const styles = StyleSheet.create({
   button: {
@@ -11,16 +10,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export const SaveButton: React.FunctionComponent<AddAccountFieldProps> = ({
-  form,
-  screenProps,
+export type SaveButtonProps = {
+  settings: Settings;
+};
+
+export const SaveButton: React.FunctionComponent<SaveButtonProps> = ({
+  settings,
 }) => {
   const save = () => {
-    if (!form) {
+    if (!settings) {
       return;
     }
-    storeItem(STORAGE_ITEMS.ACCOUNT, form).then(() => {
-      screenProps?.navigation.navigate('HomeScreen');
+    storeItem(STORAGE_ITEMS.SETTINGS, settings).then(() => {
+      Alert.alert('Settings saved!', '', [{text: 'OK'}]);
     });
   };
 
