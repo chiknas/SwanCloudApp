@@ -2,7 +2,7 @@ import {File} from './MediaAlbum/types';
 import {SWAN_SERVER_URL} from '@env';
 import MediaAlbum from './MediaAlbum/MediaAlbum';
 import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
-import {getStorageItem} from './AsyncStorage/storageHelpers';
+import {getStorageItem, storeItem} from './AsyncStorage/storageHelpers';
 import {updateLastSyncTimestamp} from './AsyncStorage/settingsHelpers';
 import Upload, {MultipartUploadOptions} from 'react-native-background-upload';
 
@@ -17,10 +17,13 @@ const getUnsyncFiles = async (): Promise<File[]> => {
 
 export const syncFiles = async () => {
   const unSyncFiles = await getUnsyncFiles();
-  var latestSuccessTimeStamp = -1;
-  var firstFailTimeStamp = -1;
+  var latestTimeStamp = -1;
 
   for (const file of unSyncFiles) {
+    if (file.timestamp > latestTimeStamp) {
+      latestTimeStamp = file.timestamp;
+    }
+
     const options: MultipartUploadOptions = {
       url: `${SWAN_SERVER_URL}/upload`,
       path: file.uri,
@@ -45,21 +48,18 @@ export const syncFiles = async () => {
           console.log(`Progress: ${data.progress}%`);
         });
         Upload.addListener('error', uploadId, (data) => {
-          if (
-            firstFailTimeStamp === -1 ||
-            file.timestamp < firstFailTimeStamp
-          ) {
-            firstFailTimeStamp = file.timestamp;
-          }
+          getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
+            if (settings.lastUploadedTimestamp > file.timestamp) {
+              settings.lastUploadedTimestamp = file.timestamp;
+              storeItem(STORAGE_ITEMS.SETTINGS, settings);
+            }
+          });
           console.log(`Error: ${data.error}%`);
         });
         Upload.addListener('cancelled', uploadId, (data) => {
           console.log(`Cancelled!`);
         });
         Upload.addListener('completed', uploadId, (data) => {
-          if (file.timestamp > latestSuccessTimeStamp) {
-            latestSuccessTimeStamp = file.timestamp;
-          }
           console.log('Completed!');
         });
       })
@@ -68,8 +68,7 @@ export const syncFiles = async () => {
       });
   }
 
-  // if we have a fail upload use its timestamp as the last sync point to re sync it next time.
-  updateLastSyncTimestamp(
-    firstFailTimeStamp > 0 ? firstFailTimeStamp - 1000 : latestSuccessTimeStamp,
-  );
+  if (latestTimeStamp > 1) {
+    updateLastSyncTimestamp(latestTimeStamp);
+  }
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {TextField} from 'components/TextField';
 import {View, ViewProps} from 'components/Themed';
@@ -17,15 +17,17 @@ export const LastSyncTimestamp: React.FunctionComponent<
   const [date, setDate] = useState<Date>(new Date());
   const [show, setShow] = useState<boolean>(false);
 
-  const onChange = (selectedDate?: Date) => {
-    selectedDate && setDate(selectedDate);
-    selectedDate &&
-      setSettings((settings) => {
-        settings.lastUploadedTimestamp = selectedDate.getTime();
-        return settings;
-      });
-    setShow(false);
-  };
+  const onChange = useCallback((selectedDate?: Date) => {
+    if (selectedDate && selectedDate?.getFullYear() > 1980) {
+      selectedDate && setDate(selectedDate);
+      selectedDate &&
+        setSettings((settings) => {
+          settings.lastUploadedTimestamp = selectedDate.getTime();
+          return settings;
+        });
+      setShow(false);
+    }
+  }, []);
 
   useEffect(() => {
     getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
