@@ -5732,6 +5732,11 @@ react-native-background-fetch@^3.1.0:
     plist "^3.0.1"
     xcode "^2.0.0"
 
+react-native-background-upload@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-background-upload/-/react-native-background-upload-6.2.0.tgz#c7a5db94c2def8e464f5f770eaa7e62899660921"
+  integrity sha512-cGDRprAeu6nKNdg4wbcffruDc/vHO4JpNk6cnfmuVYyZOGJ1Ei8b7vf7inQHgx38PLCpB3seNgyQoM9enGzksA==
+
 react-native-dotenv@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-2.4.3.tgz#1d04043ecbba185dc1ddc01fd22b5aec162b891c"
