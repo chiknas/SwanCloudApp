@@ -9,3 +9,7 @@ export const updateLastSyncTimestamp = (timestamp?: number) => {
     storeItem(item, settings);
   });
 };
+
+export const defaultSettings: Settings = {
+  lastUploadedTimestamp: 0,
+};

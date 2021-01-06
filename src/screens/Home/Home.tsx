@@ -9,6 +9,7 @@ import {Text, View} from 'components/Themed';
 import {Title} from 'components/Title';
 import MediaAlbum from 'services/MediaAlbum/MediaAlbum';
 import {syncFiles} from 'services/FileSyncTask';
+import {defaultSettings} from 'services/AsyncStorage/settingsHelpers';
 
 const styles = StyleSheet.create({
   homeContent: {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
 export const Home: React.FunctionComponent<HomeScreenProps> = ({
   navigation,
 }: HomeScreenProps) => {
-  const [settings, setSettings] = useState<Settings>();
+  const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [numberOfPendingImages, setNumberOfPendingImages] = useState<number>(0);
   const mediaAlbum = new MediaAlbum();
 
@@ -62,33 +63,28 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
   }, [navigation, updateSettings]);
 
   return (
-    <>
-      {settings && (
-        <View style={styles.homeContent}>
-          <View style={styles.flex}>
-            <Title>Swan Server</Title>
-            <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
-            <Text>{`Last upload: ${new Date(
-              settings.lastUploadedTimestamp,
-            )}`}</Text>
-          </View>
-          <View
-            style={[styles.horizontal_wrapper, {justifyContent: 'flex-end'}]}>
-            <View style={{marginRight: 10, width: 100}}>
-              <Button
-                title="Refresh"
-                onPress={() => {
-                  updateSettings();
-                }}
-                color={'#f5ce42'}
-              />
-            </View>
-            <View style={{width: 100}}>
-              <Button title="Sync" onPress={syncFiles} />
-            </View>
-          </View>
+    <View style={styles.homeContent}>
+      <View style={styles.flex}>
+        <Title>Swan Server</Title>
+        <Text>{`Unsynced fotos: ${numberOfPendingImages}`}</Text>
+        <Text>{`Last upload: ${new Date(
+          settings.lastUploadedTimestamp,
+        )}`}</Text>
+      </View>
+      <View style={[styles.horizontal_wrapper, {justifyContent: 'flex-end'}]}>
+        <View style={{marginRight: 10, width: 100}}>
+          <Button
+            title="Refresh"
+            onPress={() => {
+              updateSettings();
+            }}
+            color={'#f5ce42'}
+          />
         </View>
-      )}
-    </>
+        <View style={{width: 100}}>
+          <Button title="Sync" onPress={syncFiles} />
+        </View>
+      </View>
+    </View>
   );
 };
