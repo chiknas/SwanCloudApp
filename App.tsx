@@ -6,11 +6,11 @@ import Navigation from 'navigation/Navigation';
 import useCachedResources from 'hooks/useCachedResources';
 import {HeaderStyles} from 'constants/Header';
 import BackgroundFetch from 'react-native-background-fetch';
-import {syncFiles} from 'services/FileSyncTask';
+import {BackgroundTask} from 'services/BackgroundTask';
 
 // Background task for androids that runs when the app is terminated
 BackgroundFetch.registerHeadlessTask(async (event) => {
-  await syncFiles();
+  await BackgroundTask();
   BackgroundFetch.finish(event.taskId);
 });
 

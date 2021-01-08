@@ -1,4 +1,6 @@
 import BackgroundFetch from 'react-native-background-fetch';
+import {getStorageItem} from './AsyncStorage/storageHelpers';
+import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
 import {syncFiles} from './FileSyncTask';
 
 export const backgroundTaskConfig = () => {
@@ -17,7 +19,7 @@ export const backgroundTaskConfig = () => {
       requiresStorageNotLow: false,
     },
     async (taskId) => {
-      await syncFiles();
+      await BackgroundTask();
       BackgroundFetch.finish(taskId);
     },
     (error) => {
@@ -39,4 +41,11 @@ export const backgroundTaskConfig = () => {
         break;
     }
   });
+};
+
+export const BackgroundTask = async () => {
+  const settings: Settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+  if (settings.isAutoSync) {
+    await syncFiles();
+  }
 };

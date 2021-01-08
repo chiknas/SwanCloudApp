@@ -4,4 +4,5 @@ export enum STORAGE_ITEMS {
 
 export type Settings = {
   lastUploadedTimestamp: number;
+  isAutoSync: boolean;
 };

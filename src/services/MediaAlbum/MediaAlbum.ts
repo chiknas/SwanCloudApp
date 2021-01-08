@@ -4,7 +4,7 @@ import {File} from './types';
 export default class MediaAlbum {
   getLatestMedia(time: string): Promise<CameraRoll.PhotoIdentifiersPage> {
     return CameraRoll.getPhotos({
-      first: 10,
+      first: 10000,
       assetType: 'All',
       fromTime: parseInt(time, 10),
       include: ['filename'],

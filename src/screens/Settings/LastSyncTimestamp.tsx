@@ -1,39 +1,26 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {TextField} from 'components/TextField';
 import {View, ViewProps} from 'components/Themed';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
-import {Settings, STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {Settings} from 'services/AsyncStorage/type';
+import {updateLastSyncTimestamp} from 'services/AsyncStorage/settingsHelpers';
+import {Title} from 'components/Title';
 
 export type LastSyncTimestampProps = {
   settings: Settings;
-  setSettings: (value: React.SetStateAction<Settings>) => void;
 };
 
 export const LastSyncTimestamp: React.FunctionComponent<
   LastSyncTimestampProps & ViewProps
-> = ({setSettings, ...viewProps}) => {
-  const [date, setDate] = useState<Date>(new Date());
+> = ({settings, ...viewProps}) => {
+  const currentDate = new Date(settings.lastUploadedTimestamp);
+  const [date, setDate] = useState<Date>(currentDate);
   const [show, setShow] = useState<boolean>(false);
 
-  const onChange = useCallback((selectedDate?: Date) => {
-    if (selectedDate && selectedDate?.getFullYear() > 1980) {
-      selectedDate && setDate(selectedDate);
-      selectedDate &&
-        setSettings((settings) => {
-          settings.lastUploadedTimestamp = selectedDate.getTime();
-          return settings;
-        });
-      setShow(false);
-    }
-  }, []);
-
   useEffect(() => {
-    getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
-      onChange(new Date(settings.lastUploadedTimestamp));
-    });
-  }, [setSettings]);
+    updateLastSyncTimestamp(date.getTime());
+  }, [date, settings]);
 
   return (
     <TouchableOpacity
@@ -41,16 +28,18 @@ export const LastSyncTimestamp: React.FunctionComponent<
         setShow(true);
       }}>
       <View {...viewProps} pointerEvents="none">
-        {show && (
+        {show && date && (
           <DateTimePicker
             value={date}
             mode={'date'}
             display="spinner"
             onChange={(event: Event, selectedDate?: Date) => {
-              onChange(selectedDate);
+              selectedDate && setDate(selectedDate);
+              setShow(false);
             }}
           />
         )}
+        <Title>Last Sync Date</Title>
         <TextField
           label="Last sync"
           defaultValue={date.toDateString()}

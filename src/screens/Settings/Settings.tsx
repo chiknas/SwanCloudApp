@@ -1,13 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {View} from 'components/Themed';
 import {SettingsScreenProps} from 'navigation/types';
-import {SaveButton} from './SaveButton';
 import {ScrollView} from 'react-native-gesture-handler';
-import {Settings} from 'services/AsyncStorage/type';
+import {Settings, STORAGE_ITEMS} from 'services/AsyncStorage/type';
 import {ConnectionTestButton} from './ConnectionTestButton';
 import {LastSyncTimestamp} from './LastSyncTimestamp';
+import {AutoSync} from './AutoSync';
+import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 
 const styles = StyleSheet.create({
   form: {
@@ -27,30 +28,34 @@ const styles = StyleSheet.create({
 });
 
 export const SettingsScreen: React.FunctionComponent<SettingsScreenProps> = () => {
-  const [settings, setSettings] = useState<Settings>({
-    lastUploadedTimestamp: new Date().getTime(),
-  });
+  const [settings, setSettings] = useState<Settings>();
+
+  useEffect(() => {
+    getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
+      setSettings(settings);
+    });
+  }, []);
 
   return (
-    <View style={styles.form}>
-      <ScrollView>
-        <LastSyncTimestamp
-          settings={settings}
-          setSettings={setSettings}
-          style={styles.form_item}
-        />
-      </ScrollView>
-      <View
-        style={[
-          styles.form_item,
-          styles.horizontal_wrapper,
-          {justifyContent: 'flex-end'},
-        ]}>
-        <View style={{marginRight: 10}}>
-          <ConnectionTestButton />
+    <>
+      {settings && (
+        <View style={styles.form}>
+          <ScrollView>
+            <LastSyncTimestamp settings={settings} style={styles.form_item} />
+            <AutoSync settings={settings} style={styles.form_item} />
+          </ScrollView>
+          <View
+            style={[
+              styles.form_item,
+              styles.horizontal_wrapper,
+              {justifyContent: 'flex-end'},
+            ]}>
+            <View style={{marginRight: 10}}>
+              <ConnectionTestButton />
+            </View>
+          </View>
         </View>
-        <SaveButton settings={settings} />
-      </View>
-    </View>
+      )}
+    </>
   );
 };

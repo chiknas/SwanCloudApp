@@ -2,7 +2,7 @@ import {File} from './MediaAlbum/types';
 import {SWAN_SERVER_URL} from '@env';
 import MediaAlbum from './MediaAlbum/MediaAlbum';
 import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
-import {getStorageItem, storeItem} from './AsyncStorage/storageHelpers';
+import {getStorageItem} from './AsyncStorage/storageHelpers';
 import {updateLastSyncTimestamp} from './AsyncStorage/settingsHelpers';
 import Upload, {MultipartUploadOptions} from 'react-native-background-upload';
 
@@ -48,19 +48,9 @@ const upload = (file: File, unSyncFiles: File[]) => {
 
   Upload.startUpload(options)
     .then((uploadId) => {
-      console.log('Upload started');
-      Upload.addListener('progress', uploadId, (data) => {
-        console.log(`Progress: ${data.progress}%`);
-      });
       Upload.addListener('error', uploadId, (data) => {
         // set the latest timestamp a little bit earlier to resend this file next time
-        getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
-          if (settings.lastUploadedTimestamp > file.timestamp) {
-            settings.lastUploadedTimestamp = file.timestamp - 1000;
-            storeItem(STORAGE_ITEMS.SETTINGS, settings);
-          }
-        });
-        console.log(`Error: ${data.error}%`);
+        updateLastSyncTimestamp(file.timestamp - 1000);
       });
 
       Upload.addListener('completed', uploadId, (data) => {
@@ -68,14 +58,14 @@ const upload = (file: File, unSyncFiles: File[]) => {
         if (nextFile && data.responseCode === 200) {
           upload(nextFile, unSyncFiles);
         }
-        console.log('Completed!');
       });
     })
     .catch((err) => {
       console.log('Upload error!', err);
     });
 
-  updateLastSyncTimestamp(file.timestamp);
+  // set the timestamp a little bit later so we dont resend the same file next time
+  updateLastSyncTimestamp(file.timestamp + 1000);
 };
 
 export const syncFiles = async () => {
