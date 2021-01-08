@@ -18,7 +18,7 @@ export default class MediaAlbum {
       fileType: edge.node.type,
       // CameraRoll returns the time in this format 1603030027.898 for some reason.
       // this refactors it to a normal timestamp 1603030027898
-      timestamp: parseInt(edge.node.timestamp.toString().replace('.', ''), 10),
+      timestamp: parseInt(edge.node.timestamp.toString(), 10) * 1000,
     };
   }
 }
