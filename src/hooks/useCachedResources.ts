@@ -1,5 +1,4 @@
 import * as React from 'react';
-import SplashScreen from 'react-native-splash-screen';
 import {PermissionsAndroid} from 'react-native';
 import {getStorageItem, storeItem} from 'services/AsyncStorage/storageHelpers';
 import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
@@ -36,7 +35,6 @@ export default function useCachedResources() {
         console.log(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
       }
     }
 
