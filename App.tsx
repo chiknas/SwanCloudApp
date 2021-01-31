@@ -7,6 +7,7 @@ import useCachedResources from 'hooks/useCachedResources';
 import {HeaderStyles} from 'constants/Header';
 import BackgroundFetch from 'react-native-background-fetch';
 import {BackgroundTask} from 'services/BackgroundTask';
+import {MenuProvider} from 'react-native-popup-menu';
 
 // Background task for androids that runs when the app is terminated
 BackgroundFetch.registerHeadlessTask(async (event) => {
@@ -23,10 +24,12 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar backgroundColor={HeaderStyles.backgroundColor} />
-      </SafeAreaProvider>
+      <MenuProvider>
+        <SafeAreaProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar backgroundColor={HeaderStyles.backgroundColor} />
+        </SafeAreaProvider>
+      </MenuProvider>
     );
   }
 }
