@@ -1,9 +1,20 @@
 import {StackScreenProps} from '@react-navigation/stack';
+import {GalleryItem} from 'screens/Gallery/types';
 
 export type RootStackParamList = {
   Root: undefined;
+  ImageFullScreenModal: undefined;
   NotFound: undefined;
 };
+
+export type ImageFullScreenModalList = {
+  ImageFullScreenScreen: {item: GalleryItem};
+};
+
+export type ImageFullScreenModalProps = StackScreenProps<
+  ImageFullScreenModalList,
+  'ImageFullScreenScreen'
+>;
 
 export type BottomTabParamList = {
   Gallery: undefined;

@@ -9,6 +9,7 @@ import {ColorSchemeName} from 'react-native';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import {RootStackParamList} from './types';
 import BottomTabNavigator from './BottomTabNavigator';
+import {ImageFullScreenModal} from 'screens/ImageFullScreenModal/ImageFullScreenModal';
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -37,6 +38,10 @@ function RootNavigator() {
         headerShown: false,
       }}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen
+        name="ImageFullScreenModal"
+        component={ImageFullScreenModal}
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
