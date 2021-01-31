@@ -3,6 +3,7 @@ import React, {useMemo} from 'react';
 import {FlatList, StyleSheet, Text} from 'react-native';
 import {FileThumbnail} from './FileThumbnail';
 import {GalleryItem} from './types';
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   container: {paddingTop: 20},
@@ -37,7 +38,7 @@ export const DateGrid: React.FunctionComponent<DateGridProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.date}>{date}</Text>
+      <Text style={styles.date}>{moment(date).format('Do MMMM YYYY')}</Text>
       <FlatList
         data={data}
         renderItem={({item}) => <FileThumbnail item={item} />}

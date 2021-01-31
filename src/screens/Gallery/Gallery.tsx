@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 import {DateGrid} from './DateGrid';
+import {GalleryFilterRow} from './GalleryFilterRow';
 import {useFiles} from './hooks/useFiles';
 import {GalleryItem} from './types';
 
@@ -15,7 +16,8 @@ const styles = StyleSheet.create({
 export const Gallery: React.FunctionComponent = () => {
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [filesUpdateToggle, setFilesUpdateToggle] = useState<boolean>(false);
-  const files = useFiles([filesUpdateToggle]);
+  const [uncategorizedOnly, setUncategorizedOnly] = useState<boolean>(false);
+  const files = useFiles(uncategorizedOnly, [filesUpdateToggle]);
 
   // creates an array of arrays to group the files based on date.
   // assumes server returns files ordered by day
@@ -40,6 +42,10 @@ export const Gallery: React.FunctionComponent = () => {
 
   return (
     <View style={styles.homeContent}>
+      <GalleryFilterRow
+        uncategorizedOnly={uncategorizedOnly}
+        setUncategorizedOnly={setUncategorizedOnly}
+      />
       <FlatList
         data={data}
         refreshControl={
