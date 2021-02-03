@@ -1,6 +1,6 @@
 import {Text, View} from 'components/Themed';
 import {ImageFullScreenModalProps} from 'navigation/types';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import {
   Menu,
@@ -8,6 +8,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import {SetFileDatePickerPopup} from './SetFileDatePickerPopup';
 
 const styles = StyleSheet.create({
   homeContent: {
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
+  menu_item: {
+    fontSize: 17,
+    padding: 10,
+  },
   image_container: {
     flex: 1,
     display: 'flex',
@@ -37,6 +42,8 @@ const styles = StyleSheet.create({
 export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalProps> = ({
   route,
 }: ImageFullScreenModalProps) => {
+  const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+
   const {item} = route.params;
 
   return (
@@ -48,15 +55,12 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
             <Image source={require('assets/images/three-dots.png')} />
           </MenuTrigger>
           <MenuOptions>
-            <MenuOption onSelect={() => alert('Save')} text="Save" />
-            <MenuOption onSelect={() => alert('Delete')}>
-              <Text style={{color: 'red'}}>Delete</Text>
+            <MenuOption onSelect={() => setDatePickerVisible(true)}>
+              <Text style={styles.menu_item}>Set Date</Text>
             </MenuOption>
-            <MenuOption
-              onSelect={() => alert('Not called')}
-              disabled={true}
-              text="Disabled"
-            />
+            <MenuOption onSelect={() => alert('Delete')}>
+              <Text style={styles.menu_item}>Delete</Text>
+            </MenuOption>
           </MenuOptions>
         </Menu>
       </View>
@@ -66,6 +70,13 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
           style={styles.image}
         />
       </View>
+
+      {datePickerVisible && (
+        <SetFileDatePickerPopup
+          file={item}
+          onClose={() => setDatePickerVisible(false)}
+        />
+      )}
     </View>
   );
 };
