@@ -27,15 +27,22 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('ImageFullScreenModal', {item: item});
-        }}>
+      {item.thumbnail && item.thumbnail.length > 0 ? (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ImageFullScreenModal', {item: item});
+          }}>
+          <Image
+            style={styles.imageThumbnail}
+            source={{uri: `data:image/png;base64,${item.thumbnail}`}}
+          />
+        </TouchableOpacity>
+      ) : (
         <Image
           style={styles.imageThumbnail}
           source={{uri: `data:image/png;base64,${item.thumbnail}`}}
         />
-      </TouchableOpacity>
+      )}
     </View>
   );
 };
