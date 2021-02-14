@@ -4,10 +4,10 @@ import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Navigation from 'navigation/Navigation';
 import useCachedResources from 'hooks/useCachedResources';
-import {HeaderStyles} from 'constants/Header';
 import BackgroundFetch from 'react-native-background-fetch';
 import {BackgroundTask} from 'services/BackgroundTask';
 import {MenuProvider} from 'react-native-popup-menu';
+import Colors from 'constants/Colors';
 
 // Background task for androids that runs when the app is terminated
 BackgroundFetch.registerHeadlessTask(async (event) => {
@@ -27,7 +27,11 @@ export default function App() {
       <MenuProvider>
         <SafeAreaProvider>
           <Navigation colorScheme={colorScheme} />
-          <StatusBar backgroundColor={HeaderStyles.backgroundColor} />
+          <StatusBar
+            backgroundColor={
+              colorScheme ? Colors[colorScheme].background : '#f2f2f2'
+            }
+          />
         </SafeAreaProvider>
       </MenuProvider>
     );

@@ -6,7 +6,7 @@ import {GalleryItem} from './types';
 import moment from 'moment';
 
 const styles = StyleSheet.create({
-  container: {paddingTop: 20},
+  container: {paddingTop: 20, backgroundColor: '#f2f2f2'},
   date: {padding: 20},
 });
 

@@ -1,4 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import Colors from '../constants/Colors';
@@ -6,7 +7,6 @@ import useColorScheme from '../hooks/useColorScheme';
 import {BottomTabParamList, HomeParamList, GalleryParamList} from './types';
 import {Gallery} from 'screens/Gallery/Gallery';
 import {Home} from 'screens/Home/Home';
-import {Image} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -15,16 +15,20 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tabIconSelected,
+        activeBackgroundColor: Colors[colorScheme].activeBackgroundColor,
+        inactiveBackgroundColor: Colors[colorScheme].inactiveBackgroundColor,
+      }}>
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: () => (
-            <Image
-              width={1}
-              height={1}
-              source={require('assets/images/home.png')}
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialIcons
+              name="house"
+              size={focused ? size + 5 : size}
+              color={color}
             />
           ),
         }}
@@ -33,11 +37,11 @@ export default function BottomTabNavigator() {
         name="Gallery"
         component={GalleryNavigator}
         options={{
-          tabBarIcon: () => (
-            <Image
-              width={1}
-              height={1}
-              source={require('assets/images/home.png')}
+          tabBarIcon: ({focused, color, size}) => (
+            <MaterialIcons
+              name="collections"
+              size={focused ? size + 5 : size}
+              color={color}
             />
           ),
         }}

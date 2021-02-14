@@ -1,5 +1,6 @@
 import React, {PropsWithChildren} from 'react';
-import {StyleSheet, Text, TextProps} from 'react-native';
+import {StyleSheet, TextProps} from 'react-native';
+import {Text} from './Themed';
 
 const styles = StyleSheet.create({
   title: {

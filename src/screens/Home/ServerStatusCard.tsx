@@ -1,25 +1,13 @@
 import {Card} from 'components/Card';
 import {Text} from 'components/Themed';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
 import {isServerReachable} from 'services/FileSyncTask';
-
-const styles = StyleSheet.create({
-  enabled: {
-    backgroundColor: '#99ff99',
-  },
-  disabled: {
-    backgroundColor: '#ff6666',
-  },
-  testing: {
-    backgroundColor: '#D3D3D3',
-  },
-});
+import {styleSheet} from 'constants/Styles';
 
 export const ServerStatusCard: React.FunctionComponent = () => {
   const [serverStatus, setServerStatus] = useState<boolean>(false);
   const [testingServerStatus, setTestingServerStatus] = useState<boolean>(true);
-  const [cardCSSMode, setCardCSSMode] = useState(styles.testing);
+  const [cardCSSMode, setCardCSSMode] = useState(styleSheet.testing);
 
   // test connection to the server when rendering the component
   useEffect(() => {
@@ -33,9 +21,9 @@ export const ServerStatusCard: React.FunctionComponent = () => {
   // when server status or currently testing status update card css
   useEffect(() => {
     if (testingServerStatus) {
-      setCardCSSMode(styles.testing);
+      setCardCSSMode(styleSheet.testing);
     } else {
-      setCardCSSMode(serverStatus ? styles.enabled : styles.disabled);
+      setCardCSSMode(serverStatus ? styleSheet.enabled : styleSheet.disabled);
     }
   }, [testingServerStatus, serverStatus]);
 

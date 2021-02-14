@@ -8,6 +8,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {SetFileDatePickerPopup} from './SetFileDatePickerPopup';
 
 const styles = StyleSheet.create({
@@ -15,15 +16,17 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#f2f2f2',
   },
   horizontal_wrapper: {
     display: 'flex',
     flexDirection: 'row',
     padding: 15,
+    backgroundColor: '#f2f2f2',
   },
   flex: {
     flex: 1,
+    backgroundColor: '#f2f2f2',
   },
   menu_item: {
     fontSize: 17,
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     justifyContent: 'center',
+    backgroundColor: '#f2f2f2',
   },
   image: {
     height: 290,
@@ -52,11 +56,14 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
         <View style={styles.flex} />
         <Menu>
           <MenuTrigger>
-            <Image source={require('assets/images/three-dots.png')} />
+            <MaterialIcons name="menu" size={25} />
           </MenuTrigger>
           <MenuOptions>
             <MenuOption onSelect={() => setDatePickerVisible(true)}>
               <Text style={styles.menu_item}>Set Date</Text>
+            </MenuOption>
+            <MenuOption onSelect={() => alert('Download')}>
+              <Text style={styles.menu_item}>Download</Text>
             </MenuOption>
             <MenuOption onSelect={() => alert('Delete')}>
               <Text style={styles.menu_item}>Delete</Text>

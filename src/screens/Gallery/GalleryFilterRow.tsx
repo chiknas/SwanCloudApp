@@ -4,11 +4,6 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 const styles = StyleSheet.create({
-  homeContent: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
   horizontal_wrapper: {
     display: 'flex',
     flexDirection: 'row',

@@ -4,7 +4,6 @@ import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
 import {HomeScreenProps} from 'navigation/types';
 import {StyleSheet} from 'react-native';
-import {View} from 'components/Themed';
 import {syncFiles} from 'services/FileSyncTask';
 import {defaultSettings} from 'services/AsyncStorage/settingsHelpers';
 import {Card} from 'components/Card';
@@ -12,13 +11,12 @@ import {ServerStatusCard} from './ServerStatusCard';
 import {UnsyncedFotosCard} from './UnsyncedFotosCard';
 import {LastUploadedTimestamp} from './LastUploadedTimestampCard';
 import {AutoSyncCard} from './AutoSyncCard';
+import Colors from 'constants/Colors';
+import useColorScheme from 'hooks/useColorScheme';
+import {styleSheet} from 'constants/Styles';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
-  homeContent: {
-    padding: 20,
-    flex: 1,
-    display: 'flex',
-  },
   card: {
     marginTop: 15,
   },
@@ -28,6 +26,9 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
   navigation,
 }: HomeScreenProps) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const backgroundColor = {
+    backgroundColor: Colors[useColorScheme()].background,
+  };
 
   const updateSettings = useCallback(() => {
     getStorageItem(STORAGE_ITEMS.SETTINGS).then((settingList: Settings) => {
@@ -42,7 +43,7 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
   }, [navigation, updateSettings]);
 
   return (
-    <View style={styles.homeContent}>
+    <ScrollView style={[styleSheet.homeContent, backgroundColor]}>
       <ServerStatusCard />
       <Card title="SYNC NOW" onPress={() => syncFiles()} style={styles.card} />
       <AutoSyncCard
@@ -59,6 +60,6 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
         lastUploadedTimestamp={settings.lastUploadedTimestamp}
         onUpdate={() => updateSettings()}
       />
-    </View>
+    </ScrollView>
   );
 };

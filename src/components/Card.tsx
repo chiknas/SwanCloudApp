@@ -1,3 +1,5 @@
+import Colors from 'constants/Colors';
+import useColorScheme from 'hooks/useColorScheme';
 import React, {PropsWithChildren} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text, ViewProps} from './Themed';
@@ -10,8 +12,13 @@ export type CardProps = {
 const CardContent: React.FunctionComponent<PropsWithChildren<
   CardProps & ViewProps
 >> = ({title, style, children, ...props}) => {
+  const backgroundColor = {
+    backgroundColor: Colors[useColorScheme()].secondary,
+    borderColor: Colors[useColorScheme()].secondary,
+  };
+
   return (
-    <View style={[styles.square, style]} {...props}>
+    <View style={[styles.square, backgroundColor, style]} {...props}>
       {title && (
         <View style={styles.title}>
           <Text style={styles.titleText}>{title}</Text>
@@ -51,11 +58,9 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: '#ffccb3',
-    backgroundColor: '#ffccb3',
     elevation: 15,
     shadowOffset: {width: 5, height: 5},
-    shadowColor: 'grey',
+    shadowColor: 'black',
     shadowOpacity: 1,
     shadowRadius: 10,
   },
