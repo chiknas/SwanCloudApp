@@ -1,8 +1,9 @@
 import {GalleryComponent} from 'screens/Gallery/components/GalleryComponent';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {useFiles} from './hooks/useFiles';
 import {Text} from 'components/Themed';
+import {isServerReachable} from 'services/FileSyncTask';
 
 const styles = StyleSheet.create({
   homeContent: {
@@ -18,7 +19,15 @@ const styles = StyleSheet.create({
 
 export const AllFiles: React.FunctionComponent = () => {
   const [cursor, setCursor] = useState<string>();
+  const [serverStatus, setServerStatus] = useState<boolean>(true);
   const filesResponse = useFiles(cursor);
+
+  // test connection to the server when rendering the component
+  useEffect(() => {
+    isServerReachable().then((status) => {
+      setServerStatus(status);
+    });
+  }, []);
 
   const getNewPage = useCallback(() => {
     if (
@@ -33,19 +42,23 @@ export const AllFiles: React.FunctionComponent = () => {
 
   return (
     <View style={styles.homeContent}>
-      {filesResponse ? (
-        filesResponse.nodes.length > 0 ? (
-          <GalleryComponent
-            items={filesResponse.nodes}
-            onEndReached={getNewPage}
-          />
+      {serverStatus ? (
+        filesResponse ? (
+          filesResponse.nodes.length > 0 ? (
+            <GalleryComponent
+              items={filesResponse.nodes}
+              onEndReached={getNewPage}
+            />
+          ) : (
+            <Text style={styles.emptyServerMessage}>
+              No files currently on the server
+            </Text>
+          )
         ) : (
-          <Text style={styles.emptyServerMessage}>
-            No files currently on the server
-          </Text>
+          <ActivityIndicator size="large" color="red" />
         )
       ) : (
-        <ActivityIndicator size="large" color="red" />
+        <Text style={styles.emptyServerMessage}>Server not reachable</Text>
       )}
     </View>
   );
