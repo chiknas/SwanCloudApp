@@ -37,17 +37,3 @@ export type HomeParamList = {
 };
 
 export type HomeScreenProps = StackScreenProps<HomeParamList, 'HomeScreen'>;
-
-export type SettingsParamList = {
-  SettingsScreen: undefined;
-  HomeScreen: undefined;
-};
-
-export type SettingsScreenProps = StackScreenProps<
-  SettingsParamList,
-  'SettingsScreen'
->;
-
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
-};

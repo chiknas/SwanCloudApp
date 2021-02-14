@@ -1,9 +1,8 @@
 import React from 'react';
-import {View} from 'react-native';
 import {SWAN_SERVER_URL} from '@env';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {isServerReachable} from 'services/FileSyncTask';
 import {GalleryItem} from 'screens/Gallery/types';
+import {DatePickerPopup} from 'components/DatePickerPopup';
 
 const setFileDate = (file: GalleryItem, date: Date) => {
   isServerReachable().then((isServerUp) => {
@@ -35,16 +34,9 @@ export const SetFileDatePickerPopup: React.FunctionComponent<SetFileDateModalPro
   onClose,
 }) => {
   return (
-    <View>
-      <DateTimePicker
-        value={new Date()}
-        mode={'date'}
-        display="spinner"
-        onChange={(event: Event, selectedDate?: Date) => {
-          selectedDate && setFileDate(file, selectedDate);
-          onClose && onClose();
-        }}
-      />
-    </View>
+    <DatePickerPopup
+      onChange={(selectedDate) => setFileDate(file, selectedDate)}
+      onClose={onClose}
+    />
   );
 };

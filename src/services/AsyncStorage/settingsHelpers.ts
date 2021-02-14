@@ -3,15 +3,15 @@ import {Settings, STORAGE_ITEMS} from './type';
 
 const item = STORAGE_ITEMS.SETTINGS;
 
-export const updateLastSyncTimestamp = (timestamp: number) => {
-  getStorageItem(item).then((settings: Settings) => {
+export const updateLastSyncTimestamp = async (timestamp: number) => {
+  await getStorageItem(item).then((settings: Settings) => {
     settings.lastUploadedTimestamp = timestamp;
     storeItem(item, settings);
   });
 };
 
-export const updateAutoSync = (isAutoSync: boolean) => {
-  getStorageItem(item).then((settings: Settings) => {
+export const updateAutoSync = async (isAutoSync: boolean) => {
+  await getStorageItem(item).then((settings: Settings) => {
     settings.isAutoSync = isAutoSync;
     storeItem(item, settings);
   });

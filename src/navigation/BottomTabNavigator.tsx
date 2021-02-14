@@ -1,20 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import {
-  BottomTabParamList,
-  HomeParamList,
-  TabTwoParamList,
-  SettingsParamList,
-  GalleryParamList,
-} from './types';
+import {BottomTabParamList, HomeParamList, GalleryParamList} from './types';
 import {Gallery} from 'screens/Gallery/Gallery';
 import {Home} from 'screens/Home/Home';
-import {SettingsScreen} from 'screens/Settings/Settings';
 import {Image} from 'react-native';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -25,19 +16,6 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}>
-      <BottomTab.Screen
-        name="Gallery"
-        component={GalleryNavigator}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              width={1}
-              height={1}
-              source={require('assets/images/home.png')}
-            />
-          ),
-        }}
-      />
       <BottomTab.Screen
         name="Home"
         component={HomeNavigator}
@@ -52,27 +30,14 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="Settings"
-        component={SettingsNavigator}
+        name="Gallery"
+        component={GalleryNavigator}
         options={{
           tabBarIcon: () => (
             <Image
               width={1}
               height={1}
-              source={require('assets/images/account_icon.png')}
-            />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: () => (
-            <Image
-              width={1}
-              height={1}
-              source={require('assets/images/settings.png')}
+              source={require('assets/images/home.png')}
             />
           ),
         }}
@@ -108,33 +73,5 @@ function HomeNavigator() {
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>
-  );
-}
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{headerShown: false}}
-      />
-    </TabTwoStack.Navigator>
-  );
-}
-
-const SettingsStack = createStackNavigator<SettingsParamList>();
-
-function SettingsNavigator() {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{headerShown: false}}
-      />
-    </SettingsStack.Navigator>
   );
 }
