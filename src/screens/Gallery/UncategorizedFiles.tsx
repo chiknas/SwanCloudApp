@@ -1,13 +1,18 @@
 import {GalleryComponent} from 'screens/Gallery/components/GalleryComponent';
 import React, {useCallback, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {useUncategorizedFiles} from './hooks/useUncategorizedFiles';
+import {Text} from 'components/Themed';
 
 const styles = StyleSheet.create({
   homeContent: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  emptyServerMessage: {
+    alignSelf: 'center',
+    fontSize: 20,
   },
 });
 
@@ -28,11 +33,19 @@ export const UncategorizedFiles: React.FunctionComponent = () => {
 
   return (
     <View style={styles.homeContent}>
-      {filesResponse && filesResponse.nodes && (
-        <GalleryComponent
-          items={filesResponse.nodes}
-          onEndReached={getNewPage}
-        />
+      {filesResponse ? (
+        filesResponse.nodes.length > 0 ? (
+          <GalleryComponent
+            items={filesResponse.nodes}
+            onEndReached={getNewPage}
+          />
+        ) : (
+          <Text style={styles.emptyServerMessage}>
+            No files currently on the server
+          </Text>
+        )
+      ) : (
+        <ActivityIndicator size="large" color="red" />
       )}
     </View>
   );
