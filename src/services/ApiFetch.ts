@@ -1,32 +1,37 @@
-import {SWAN_SERVER_URL} from '@env';
-import jsSHA from 'jssha';
+import {getStorageItem} from './AsyncStorage/storageHelpers';
+import {STORAGE_ITEMS} from './AsyncStorage/type';
 
-const sha256 = new jsSHA('SHA-256', 'TEXT', {encoding: 'UTF8'});
-sha256.update('nikos');
-const apiKey = sha256.getHash('HEX');
-
-export const getApiHeaders = () => {
+export const getApiHeaders = async () => {
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
 
-  return apiKey
-    ? {...defaultHeaders, ...{Authorization: apiKey}}
+  const settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+
+  return settings.apiKey
+    ? {...defaultHeaders, ...{Authorization: settings.apiKey}}
     : defaultHeaders;
 };
 
-export const apiFetch = (path?: string): Promise<Response> => {
-  return fetch(`${SWAN_SERVER_URL}${path ?? ''}`, {
+export const apiFetch = async (path?: string): Promise<Response> => {
+  const settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+
+  return fetch(`${settings.serverUrl}${path ?? ''}`, {
     method: 'GET',
-    headers: getApiHeaders(),
+    headers: await getApiHeaders(),
   });
 };
 
-export const apiPost = (path: string, body: string): Promise<Response> => {
-  return fetch(`${SWAN_SERVER_URL}${path}`, {
+export const apiPost = async (
+  path: string,
+  body: string,
+): Promise<Response> => {
+  const settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+
+  return fetch(`${settings.serverUrl}${path}`, {
     method: 'POST',
-    headers: getApiHeaders(),
+    headers: await getApiHeaders(),
     body: body,
   });
 };

@@ -1,5 +1,4 @@
 import {File} from './MediaAlbum/types';
-import {SWAN_SERVER_URL} from '@env';
 import MediaAlbum from './MediaAlbum/MediaAlbum';
 import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
 import {getStorageItem} from './AsyncStorage/storageHelpers';
@@ -21,23 +20,28 @@ export const isServerReachable = async () => {
     setTimeout(reject, 5000, 'Request timed out');
   });
 
-  const request = apiFetch();
+  const request = apiFetch('/files?limit=1');
+  const responseStatus = request.then((response) => {
+    return response.status === 200;
+  });
   try {
     await Promise.race([timeout, request]);
-    return true;
+    return responseStatus;
   } catch (error) {
     return false;
   }
 };
 
-const upload = (file: File, unSyncFiles: File[]) => {
+const upload = async (file: File, unSyncFiles: File[]) => {
+  const settings: Settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+
   const options: MultipartUploadOptions = {
-    url: `${SWAN_SERVER_URL}/upload`,
+    url: `${settings.serverUrl}/upload`,
     path: file.uri,
     method: 'POST',
     field: 'data',
     type: 'multipart',
-    headers: getApiHeaders(),
+    headers: await getApiHeaders(),
     notification: {
       enabled: true,
       autoClear: true,

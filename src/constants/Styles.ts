@@ -18,4 +18,8 @@ export const styleSheet = StyleSheet.create({
     flex: 1,
     display: 'flex',
   },
+  horizontal_wrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
 });

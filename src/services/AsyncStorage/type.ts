@@ -3,6 +3,8 @@ export enum STORAGE_ITEMS {
 }
 
 export type Settings = {
+  serverUrl: string | undefined;
+  apiKey: string | undefined;
   lastUploadedTimestamp: number;
   isAutoSync: boolean;
 };
