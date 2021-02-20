@@ -1,11 +1,11 @@
 import {SWAN_SERVER_URL} from '@env';
+import jsSHA from 'jssha';
+
+const sha256 = new jsSHA('SHA-256', 'TEXT', {encoding: 'UTF8'});
+sha256.update('nikos');
+const apiKey = sha256.getHash('HEX');
 
 export const getApiHeaders = () => {
-  const apiKey =
-    '335c54f3b6061b0b8bb1e3fdff4c771c3680caa68d1299c36fd7e08f7dcf647f';
-
-  // TODO: api key should be something like a password and then it will be hashed here
-
   const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
