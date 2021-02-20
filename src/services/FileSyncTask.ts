@@ -5,6 +5,7 @@ import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
 import {getStorageItem} from './AsyncStorage/storageHelpers';
 import {updateLastSyncTimestamp} from './AsyncStorage/settingsHelpers';
 import Upload, {MultipartUploadOptions} from 'react-native-background-upload';
+import {apiFetch, getApiHeaders} from './ApiFetch';
 
 const getUnsyncFiles = async (): Promise<File[]> => {
   const settings: Settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
@@ -19,7 +20,8 @@ export const isServerReachable = async () => {
   const timeout = new Promise((resolve, reject) => {
     setTimeout(reject, 5000, 'Request timed out');
   });
-  const request = fetch(SWAN_SERVER_URL);
+
+  const request = apiFetch();
   try {
     await Promise.race([timeout, request]);
     return true;
@@ -35,6 +37,7 @@ const upload = (file: File, unSyncFiles: File[]) => {
     method: 'POST',
     field: 'data',
     type: 'multipart',
+    headers: getApiHeaders(),
     notification: {
       enabled: true,
       autoClear: true,

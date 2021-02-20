@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
-import {SWAN_SERVER_URL} from '@env';
 import {isServerReachable} from 'services/FileSyncTask';
 import {FilesResponse} from './types';
+import {apiFetch} from 'services/ApiFetch';
 
 export const useUncategorizedFiles = (cursor: string | undefined) => {
   const [data, setData] = useState<FilesResponse>();
@@ -12,9 +12,7 @@ export const useUncategorizedFiles = (cursor: string | undefined) => {
 
     isServerReachable().then((isServerUp) => {
       if (isServerUp) {
-        fetch(
-          `${SWAN_SERVER_URL}/files/uncategorized?${cursorUrlParam}${limitParam}`,
-        )
+        apiFetch(`/files/uncategorized?${cursorUrlParam}${limitParam}`)
           .then((response) => {
             return response.json();
           })

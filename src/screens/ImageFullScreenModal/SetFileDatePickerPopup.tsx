@@ -1,23 +1,19 @@
 import React from 'react';
-import {SWAN_SERVER_URL} from '@env';
 import {isServerReachable} from 'services/FileSyncTask';
 import {GalleryItem} from 'screens/Gallery/types';
 import {DatePickerPopup} from 'components/DatePickerPopup';
+import {apiPost} from 'services/ApiFetch';
 
 const setFileDate = (file: GalleryItem, date: Date) => {
   isServerReachable().then((isServerUp) => {
     if (isServerUp) {
-      fetch(`${SWAN_SERVER_URL}/file/set-date`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      apiPost(
+        '/file/set-date',
+        JSON.stringify({
           fileId: file.id,
           creationDate: date.toISOString(),
         }),
-      }).catch((error) => {
+      ).catch((error) => {
         console.error(error);
       });
     }
