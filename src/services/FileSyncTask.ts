@@ -1,10 +1,10 @@
 import {File} from './MediaAlbum/types';
-import {SWAN_SERVER_URL} from '@env';
 import MediaAlbum from './MediaAlbum/MediaAlbum';
 import {Settings, STORAGE_ITEMS} from './AsyncStorage/type';
 import {getStorageItem} from './AsyncStorage/storageHelpers';
 import {updateLastSyncTimestamp} from './AsyncStorage/settingsHelpers';
 import Upload, {MultipartUploadOptions} from 'react-native-background-upload';
+import {apiFetch, getApiHeaders} from './ApiFetch';
 
 const getUnsyncFiles = async (): Promise<File[]> => {
   const settings: Settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
@@ -19,22 +19,29 @@ export const isServerReachable = async () => {
   const timeout = new Promise((resolve, reject) => {
     setTimeout(reject, 5000, 'Request timed out');
   });
-  const request = fetch(SWAN_SERVER_URL);
+
+  const request = apiFetch('/files?limit=1');
+  const responseStatus = request.then((response) => {
+    return response.status === 200;
+  });
   try {
     await Promise.race([timeout, request]);
-    return true;
+    return responseStatus;
   } catch (error) {
     return false;
   }
 };
 
-const upload = (file: File, unSyncFiles: File[]) => {
+const upload = async (file: File, unSyncFiles: File[]) => {
+  const settings: Settings = await getStorageItem(STORAGE_ITEMS.SETTINGS);
+
   const options: MultipartUploadOptions = {
-    url: `${SWAN_SERVER_URL}/upload`,
+    url: `${settings.serverUrl}/upload`,
     path: file.uri,
     method: 'POST',
     field: 'data',
     type: 'multipart',
+    headers: await getApiHeaders(),
     notification: {
       enabled: true,
       autoClear: true,

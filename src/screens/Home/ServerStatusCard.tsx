@@ -1,10 +1,13 @@
 import {Card} from 'components/Card';
-import {Text} from 'components/Themed';
+import {Text, ViewProps} from 'components/Themed';
 import React, {useEffect, useState} from 'react';
 import {isServerReachable} from 'services/FileSyncTask';
 import {styleSheet} from 'constants/Styles';
 
-export const ServerStatusCard: React.FunctionComponent = () => {
+export const ServerStatusCard: React.FunctionComponent<ViewProps> = ({
+  style,
+  ...props
+}) => {
   const [serverStatus, setServerStatus] = useState<boolean>(false);
   const [testingServerStatus, setTestingServerStatus] = useState<boolean>(true);
   const [cardCSSMode, setCardCSSMode] = useState(styleSheet.testing);
@@ -35,7 +38,8 @@ export const ServerStatusCard: React.FunctionComponent = () => {
         setServerStatus(await isServerReachable());
         setTestingServerStatus(false);
       }}
-      style={cardCSSMode}>
+      style={[cardCSSMode, style]}
+      {...props}>
       <Text>
         {testingServerStatus
           ? 'Testing connection to server...'

@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
-import {SWAN_SERVER_URL} from '@env';
 import {isServerReachable} from 'services/FileSyncTask';
 import {FilesResponse} from './types';
+import {apiFetch} from 'services/ApiFetch';
 
 export const useFiles = (cursor: string | undefined) => {
   const [data, setData] = useState<FilesResponse>();
@@ -12,7 +12,7 @@ export const useFiles = (cursor: string | undefined) => {
 
     isServerReachable().then((isServerUp) => {
       if (isServerUp) {
-        fetch(`${SWAN_SERVER_URL}/files?${cursorUrlParam}${limitParam}`)
+        apiFetch(`/files?${cursorUrlParam}${limitParam}`)
           .then((response) => {
             return response.json();
           })

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Settings} from 'services/AsyncStorage/type';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
 import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
@@ -15,6 +15,7 @@ import Colors from 'constants/Colors';
 import useColorScheme from 'hooks/useColorScheme';
 import {styleSheet} from 'constants/Styles';
 import {ScrollView} from 'react-native-gesture-handler';
+import {ServerSettingsCard} from './ServerSettingsCard';
 
 const styles = StyleSheet.create({
   card: {
@@ -36,6 +37,10 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
     });
   }, []);
 
+  const isServerSetup = useMemo(() => {
+    return settings.apiKey !== undefined && settings.serverUrl !== undefined;
+  }, [settings.apiKey, settings.serverUrl]);
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       updateSettings();
@@ -44,7 +49,12 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
 
   return (
     <ScrollView style={[styleSheet.homeContent, backgroundColor]}>
-      <ServerStatusCard />
+      <ServerSettingsCard
+        onUpdate={() => updateSettings()}
+        server={settings.serverUrl}
+        serverKey={settings.apiKey}
+      />
+      {isServerSetup && <ServerStatusCard style={styles.card} />}
       <Card title="SYNC NOW" onPress={() => syncFiles()} style={styles.card} />
       <AutoSyncCard
         style={styles.card}
