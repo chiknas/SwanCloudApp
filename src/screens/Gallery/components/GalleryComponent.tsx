@@ -76,7 +76,10 @@ export const GalleryComponent: React.FunctionComponent<GalleryComponentProps> = 
         onEndReached={() => {
           onEndReached();
         }}
-        onEndReachedThreshold={50}
+        initialNumToRender={5}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        onEndReachedThreshold={0.8}
         renderItem={({item}) => (
           <DateGrid date={item[0].createdDate} items={item} />
         )}

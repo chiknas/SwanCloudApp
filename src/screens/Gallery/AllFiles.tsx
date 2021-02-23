@@ -6,6 +6,7 @@ import {Text} from 'components/Themed';
 import {isServerReachable} from 'services/FileSyncTask';
 import useColorScheme from 'hooks/useColorScheme';
 import Colors from 'constants/Colors';
+import {GalleryItem} from './types';
 
 const styles = StyleSheet.create({
   homeContent: {
@@ -21,6 +22,8 @@ const styles = StyleSheet.create({
 });
 
 export const AllFiles: React.FunctionComponent = () => {
+  const [data, setData] = useState<GalleryItem[]>([]);
+  const [seen, setSeen] = useState<string[]>([]);
   const [cursor, setCursor] = useState<string>();
   const [serverStatus, setServerStatus] = useState<boolean>(true);
   const filesResponse = useFiles(cursor);
@@ -32,6 +35,20 @@ export const AllFiles: React.FunctionComponent = () => {
       setServerStatus(status);
     });
   }, []);
+
+  // filter duplicate files in case the server send us duplicates
+  useEffect(() => {
+    if (filesResponse && filesResponse.nodes.length > 0) {
+      setSeen(filesResponse.nodes.map((node) => node.id));
+      const unSeenData = filesResponse.nodes.filter(
+        (item) => !seen.includes(item.id),
+      );
+      if (unSeenData && unSeenData.length > 0) {
+        setData(unSeenData);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filesResponse]);
 
   const getNewPage = useCallback(() => {
     if (
@@ -49,10 +66,7 @@ export const AllFiles: React.FunctionComponent = () => {
       {serverStatus ? (
         filesResponse ? (
           filesResponse.nodes.length > 0 ? (
-            <GalleryComponent
-              items={filesResponse.nodes}
-              onEndReached={getNewPage}
-            />
+            <GalleryComponent items={data} onEndReached={getNewPage} />
           ) : (
             <Text style={styles.emptyServerMessage}>
               No files currently on the server
