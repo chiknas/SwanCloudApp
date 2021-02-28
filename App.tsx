@@ -10,7 +10,7 @@ import {MenuProvider} from 'react-native-popup-menu';
 import Colors from 'constants/Colors';
 import {GlobalContext} from 'services/GlobalContext';
 import {getStorageItem} from 'services/AsyncStorage/storageHelpers';
-import {STORAGE_ITEMS} from 'services/AsyncStorage/type';
+import {Settings, STORAGE_ITEMS} from 'services/AsyncStorage/type';
 
 // Background task for androids that runs when the app is terminated
 BackgroundFetch.registerHeadlessTask(async (event) => {
@@ -21,12 +21,16 @@ BackgroundFetch.registerHeadlessTask(async (event) => {
 //TODO: for navigation to work on iOS we might need cocoapods https://reactnative.dev/docs/navigation
 export default function App() {
   const [serverUrl, setServerUrl] = useState<string>('');
+  const [serverKey, setServerKey] = useState<string>('');
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings) => {
+  getStorageItem(STORAGE_ITEMS.SETTINGS).then((settings: Settings) => {
     if (settings && settings.serverUrl) {
       setServerUrl(settings.serverUrl);
+    }
+    if (serverKey && settings.apiKey) {
+      setServerKey(settings.apiKey);
     }
   });
 
@@ -37,7 +41,12 @@ export default function App() {
       <MenuProvider>
         <SafeAreaProvider>
           <GlobalContext.Provider
-            value={{serverUrl: serverUrl, setServerUrl: setServerUrl}}>
+            value={{
+              serverUrl: serverUrl,
+              setServerUrl: setServerUrl,
+              serverKey: serverKey,
+              setServerKey: setServerKey,
+            }}>
             <Navigation colorScheme={colorScheme} />
             <StatusBar
               backgroundColor={

@@ -26,7 +26,7 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
   item,
 }) => {
   const navigation = useNavigation();
-  const {serverUrl} = useContext<GlobalContextType>(GlobalContext);
+  const {serverUrl, serverKey} = useContext<GlobalContextType>(GlobalContext);
 
   return (
     <>
@@ -39,6 +39,7 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
             style={styles.imageThumbnail}
             source={{
               uri: `${serverUrl}/files/thumbnail/${item.id}`,
+              headers: {Authorization: serverKey},
               cache: 'reload',
             }}
           />

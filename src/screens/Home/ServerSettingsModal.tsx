@@ -50,12 +50,15 @@ export const ServerSettingsModal: React.FunctionComponent<ServerSettingsModalPro
 }) => {
   const [url, setUrl] = useState<string | undefined>();
   const [key, setKey] = useState<string | undefined>();
-  const {setServerUrl} = useContext<GlobalContextType>(GlobalContext);
+  const {setServerUrl, setServerKey} = useContext<GlobalContextType>(
+    GlobalContext,
+  );
 
   const updateServerDetails = async () => {
     if (url && key) {
       await updateServer(url, key);
       setServerUrl(url);
+      setServerKey(key);
     }
   };
 

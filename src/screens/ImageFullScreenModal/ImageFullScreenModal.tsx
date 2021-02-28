@@ -48,7 +48,7 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
   route,
 }: ImageFullScreenModalProps) => {
   const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
-  const {serverUrl} = useContext<GlobalContextType>(GlobalContext);
+  const {serverUrl, serverKey} = useContext<GlobalContextType>(GlobalContext);
 
   const {item} = route.params;
 
@@ -77,6 +77,7 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
         <Image
           source={{
             uri: `${serverUrl}/files/thumbnail/${item.id}`,
+            headers: {Authorization: serverKey},
           }}
           style={styles.image}
         />
