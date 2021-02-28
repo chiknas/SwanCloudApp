@@ -31,19 +31,29 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('ImageFullScreenModal', {item: item});
-          }}>
+        {item.id !== '' ? (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ImageFullScreenModal', {item: item});
+            }}>
+            <Image
+              style={styles.imageThumbnail}
+              source={{
+                uri: `${serverUrl}/files/thumbnail/${item.id}`,
+                headers: {Authorization: serverKey},
+                cache: 'reload',
+              }}
+            />
+          </TouchableOpacity>
+        ) : (
           <Image
             style={styles.imageThumbnail}
             source={{
-              uri: `${serverUrl}/files/thumbnail/${item.id}`,
-              headers: {Authorization: serverKey},
-              cache: 'reload',
+              uri: '',
+              cache: 'force-cache',
             }}
           />
-        </TouchableOpacity>
+        )}
       </View>
     </>
   );
