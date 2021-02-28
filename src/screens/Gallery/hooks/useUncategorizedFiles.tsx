@@ -8,7 +8,7 @@ export const useUncategorizedFiles = (cursor: string | undefined) => {
 
   useEffect(() => {
     const cursorUrlParam = cursor ? `cursor=${cursor}&` : '';
-    const limitParam = 'limit=100';
+    const limitParam = 'limit=5000';
 
     isServerReachable().then((isServerUp) => {
       if (isServerUp) {

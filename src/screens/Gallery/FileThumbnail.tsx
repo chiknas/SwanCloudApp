@@ -1,8 +1,9 @@
 import {View} from 'components/Themed';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {GalleryItem} from './types';
 import {useNavigation} from '@react-navigation/native';
+import {GlobalContext, GlobalContextType} from 'services/GlobalContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,25 +26,35 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
   item,
 }) => {
   const navigation = useNavigation();
+  const {serverUrl, serverKey} = useContext<GlobalContextType>(GlobalContext);
 
   return (
-    <View style={styles.container}>
-      {item.thumbnail && item.thumbnail.length > 0 ? (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('ImageFullScreenModal', {item: item});
-          }}>
+    <>
+      <View style={styles.container}>
+        {item.id !== '' ? (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ImageFullScreenModal', {item: item});
+            }}>
+            <Image
+              style={styles.imageThumbnail}
+              source={{
+                uri: `${serverUrl}/files/thumbnail/${item.id}`,
+                headers: {Authorization: serverKey},
+                cache: 'reload',
+              }}
+            />
+          </TouchableOpacity>
+        ) : (
           <Image
             style={styles.imageThumbnail}
-            source={{uri: `data:image/png;base64,${item.thumbnail}`}}
+            source={{
+              uri: '',
+              cache: 'force-cache',
+            }}
           />
-        </TouchableOpacity>
-      ) : (
-        <Image
-          style={styles.imageThumbnail}
-          source={{uri: `data:image/png;base64,${item.thumbnail}`}}
-        />
-      )}
-    </View>
+        )}
+      </View>
+    </>
   );
 };

@@ -1,6 +1,6 @@
 import {TextField} from 'components/TextField';
 import {styleSheet} from 'constants/Styles';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Button,
   KeyboardAvoidingView,
@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import {updateServer} from 'services/AsyncStorage/settingsHelpers';
+import {GlobalContext, GlobalContextType} from 'services/GlobalContext';
 
 const styles = StyleSheet.create({
   modalView: {
@@ -47,12 +48,17 @@ export type ServerSettingsModalProps = {
 export const ServerSettingsModal: React.FunctionComponent<ServerSettingsModalProps> = ({
   onClose,
 }) => {
-  const [serverUrl, setServerUrl] = useState<string | undefined>();
-  const [serverKey, setServerKey] = useState<string | undefined>();
+  const [url, setUrl] = useState<string | undefined>();
+  const [key, setKey] = useState<string | undefined>();
+  const {setServerUrl, setServerKey} = useContext<GlobalContextType>(
+    GlobalContext,
+  );
 
   const updateServerDetails = async () => {
-    if (serverUrl && serverKey) {
-      await updateServer(serverUrl, serverKey);
+    if (url && key) {
+      await updateServer(url, key);
+      setServerUrl(url);
+      setServerKey(key);
     }
   };
 
@@ -66,15 +72,15 @@ export const ServerSettingsModal: React.FunctionComponent<ServerSettingsModalPro
         <TextField
           style={styles.textField}
           label="Server URL"
-          value={serverUrl}
-          onChangeText={(text) => setServerUrl(text)}
+          value={url}
+          onChangeText={(text) => setUrl(text)}
         />
         <TextField
           secureTextEntry={true}
           style={styles.textField}
           label="Password"
-          value={serverKey}
-          onChangeText={(text) => setServerKey(text)}
+          value={key}
+          onChangeText={(text) => setKey(text)}
         />
         <View style={[styleSheet.horizontal_wrapper, styles.buttonRow]}>
           <View style={styles.button}>

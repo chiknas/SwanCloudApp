@@ -1,6 +1,6 @@
 import {Text, View} from 'components/Themed';
 import {ImageFullScreenModalProps} from 'navigation/types';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import {
   Menu,
@@ -9,6 +9,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {GlobalContext, GlobalContextType} from 'services/GlobalContext';
 import {SetFileDatePickerPopup} from './SetFileDatePickerPopup';
 
 const styles = StyleSheet.create({
@@ -47,6 +48,7 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
   route,
 }: ImageFullScreenModalProps) => {
   const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+  const {serverUrl, serverKey} = useContext<GlobalContextType>(GlobalContext);
 
   const {item} = route.params;
 
@@ -73,7 +75,10 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
       </View>
       <View style={styles.image_container}>
         <Image
-          source={{uri: `data:image/png;base64,${item.thumbnail}`}}
+          source={{
+            uri: `${serverUrl}/files/thumbnail/${item.id}`,
+            headers: {Authorization: serverKey},
+          }}
           style={styles.image}
         />
       </View>

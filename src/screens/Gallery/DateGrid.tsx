@@ -26,10 +26,8 @@ export const DateGrid: React.FunctionComponent<DateGridProps> = ({
     const missingItems = gridColumns - (items.length % gridColumns);
     const emptyItem: GalleryItem = {
       id: '',
-      path: '',
       fileName: '',
       createdDate: '',
-      thumbnail: '',
     };
     const missingData =
       missingItems < gridColumns ? Array(missingItems).fill(emptyItem) : [];
@@ -41,9 +39,10 @@ export const DateGrid: React.FunctionComponent<DateGridProps> = ({
       <Text style={styles.date}>{moment(date).format('Do MMMM YYYY')}</Text>
       <FlatList
         data={data}
+        initialNumToRender={30}
         renderItem={({item}) => <FileThumbnail item={item} />}
         numColumns={gridColumns}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) => item.fileName}
       />
     </View>
   );
