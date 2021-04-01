@@ -20,12 +20,19 @@ export const updateAutoSync = async (isAutoSync: boolean) => {
 
 export const updateServer = async (serverUrl: string, serverKey: string) => {
   await getStorageItem(item).then((settings: Settings) => {
-    settings.serverUrl = serverUrl;
+    settings.serverUrl = parseServerUrl(serverUrl);
     const sha256 = new jsSHA('SHA-256', 'TEXT', {encoding: 'UTF8'});
     sha256.update(serverKey);
     settings.apiKey = sha256.getHash('HEX');
     storeItem(item, settings);
   });
+};
+
+const parseServerUrl = (url: string) => {
+  if (!url.startsWith('http') && !url.startsWith('https')) {
+    return `https://${url}/api`;
+  }
+  return `${url}/api`;
 };
 
 export const defaultSettings: Settings = {

@@ -6,13 +6,17 @@ import {ServerSettingsModal} from './ServerSettingsModal';
 export type ServerSettingsCardProps = {
   onUpdate: () => void;
   server?: string;
-  serverKey?: string;
+};
+
+// Removes protocols and paths from the url
+// ex. http://example.com/api = example.com
+const extractUrlDomain = (url?: string) => {
+  return url ? url.replace(/(^\w+:|^)\/\//, '').split('/')[0] : '';
 };
 
 export const ServerSettingsCard: React.FunctionComponent<ServerSettingsCardProps> = ({
   onUpdate,
   server,
-  serverKey,
 }) => {
   const [showSettingsModal, setShowSettingsModal] = useState<boolean>(false);
 
@@ -22,8 +26,9 @@ export const ServerSettingsCard: React.FunctionComponent<ServerSettingsCardProps
         onPress={async () => {
           setShowSettingsModal(true);
         }}>
-        <Title>{server ?? 'Setup server url'}</Title>
-        {serverKey === undefined && <Title>{'Setup api key'}</Title>}
+        <Title>
+          {extractUrlDomain(server) ?? 'Click to setup server details'}
+        </Title>
       </Card>
       {showSettingsModal && (
         <ServerSettingsModal

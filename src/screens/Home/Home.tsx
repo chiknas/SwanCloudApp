@@ -52,7 +52,6 @@ export const Home: React.FunctionComponent<HomeScreenProps> = ({
       <ServerSettingsCard
         onUpdate={() => updateSettings()}
         server={settings.serverUrl}
-        serverKey={settings.apiKey}
       />
       {isServerSetup && <ServerStatusCard style={styles.card} />}
       <Card title="SYNC NOW" onPress={() => syncFiles()} style={styles.card} />
