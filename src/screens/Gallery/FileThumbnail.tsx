@@ -38,6 +38,8 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
             }}>
             <Image
               style={styles.imageThumbnail}
+              // update image every time
+              key={Date.now()}
               source={{
                 uri: `${serverUrl}/files/thumbnail/${item.id}`,
                 headers: {Authorization: serverKey},
@@ -49,7 +51,6 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
           <Image
             style={styles.imageThumbnail}
             source={{
-              uri: '',
               cache: 'force-cache',
             }}
           />
