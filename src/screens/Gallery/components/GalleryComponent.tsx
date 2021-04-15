@@ -83,7 +83,9 @@ export const GalleryComponent: React.FunctionComponent<GalleryComponentProps> = 
         renderItem={({item}) => (
           <DateGrid date={item[0].createdDate} items={item} />
         )}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item, index) =>
+          `${item[0].createdDate}_${item.length}_${index}`
+        }
       />
     </View>
   );
