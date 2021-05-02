@@ -76,7 +76,7 @@ export const ImageFullScreenModal: React.FunctionComponent<ImageFullScreenModalP
       <View style={styles.image_container}>
         <Image
           source={{
-            uri: `${serverUrl}/files/thumbnail/${item.id}`,
+            uri: `${serverUrl}/files/preview/${item.id}`,
             headers: {Authorization: serverKey},
           }}
           style={styles.image}
