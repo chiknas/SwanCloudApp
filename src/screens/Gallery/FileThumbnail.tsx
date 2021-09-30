@@ -27,6 +27,8 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
 }) => {
   const navigation = useNavigation();
   const {serverUrl, serverKey} = useContext<GlobalContextType>(GlobalContext);
+  const uri = `${serverUrl}/files/thumbnail/${item.id}`;
+  const thumbnailKey = `${item.id}.${uri}`;
 
   return (
     <>
@@ -37,9 +39,10 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
               navigation.navigate('ImageFullScreenModal', {item: item});
             }}>
             <Image
+              key={thumbnailKey}
               style={styles.imageThumbnail}
               source={{
-                uri: `${serverUrl}/files/thumbnail/${item.id}`,
+                uri,
                 headers: {Authorization: serverKey},
                 cache: 'reload',
               }}
@@ -47,9 +50,10 @@ export const FileThumbnail: React.FunctionComponent<FileThumbnailProps> = ({
           </TouchableOpacity>
         ) : (
           <Image
+            key={thumbnailKey}
             style={styles.imageThumbnail}
             source={{
-              cache: 'force-cache',
+              cache: 'reload',
             }}
           />
         )}
