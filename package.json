@@ -52,5 +52,5 @@
   "jest": {
     "preset": "react-native"
   },
-  "packageManager": "yarn@3.0.2"
+  "packageManager": "yarn@1.22.15"
 }
